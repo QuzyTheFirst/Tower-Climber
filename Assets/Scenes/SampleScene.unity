@@ -154,7 +154,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &543879850
 MonoBehaviour:
@@ -327,7 +327,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 80
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -358,7 +358,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1640627241}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &963194229
 MonoBehaviour:
@@ -394,6 +394,37 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &1026654388
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1026654389}
+  m_Layer: 0
+  m_Name: Parts
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1026654389
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1026654388}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1070741237}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1070741234
 GameObject:
   m_ObjectHideFlags: 0
@@ -404,6 +435,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1070741237}
   - component: {fileID: 1070741238}
+  - component: {fileID: 1070741239}
   m_Layer: 0
   m_Name: The Tower
   m_TagString: Untagged
@@ -424,6 +456,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1478051703}
+  - {fileID: 2099558011}
+  - {fileID: 1026654389}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -439,16 +473,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfaa1eead0846ed4aa0475bc30ec81cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _maxTowerPartsOnScreen: 7
   _towerRotatingSpeed: 25
   _towerDashDistance: 40
   _towerNormalFallSpeed: 3
   _towerAcceleratedFallSpeed: 6
+  _towerPartsParent: {fileID: 1026654389}
   _player: {fileID: 1114863121}
   _towerPartsPfs:
   - {fileID: 9022823301358504860, guid: e11da0775f0aac24f9fdf7d717fac51f, type: 3}
   - {fileID: 2927031271618471748, guid: c752e014967534f46a64cd289ba34afc, type: 3}
   - {fileID: 8734142639379821795, guid: f19c42c273d34874498bec249799bfd1, type: 3}
   - {fileID: 6303909027646646401, guid: d60347926216b994b8a32d02b0178ea3, type: 3}
+--- !u!114 &1070741239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1070741234}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5886cc172ed7fb342bd39c33dedf355e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rocksParent: {fileID: 2099558011}
+  _spawningHeight: 20
+  _spawnDistanceFromTowerCenter: 5.5
+  _minTimeBetweenFalls: 0.5
+  _maxTimeBetweenFalls: 2
+  _minFallingSpeed: 10
+  _maxFallingSpeed: 20
+  _destroyRocksAfter: 20
+  _rocksPfs:
+  - {fileID: 6833549704285630684, guid: 20c8e5e1b1103f041abc44c8f6776faf, type: 3}
+  - {fileID: 8487758314787039282, guid: 0093c1c66a128a84eafb9725b7c8a223, type: 3}
+  - {fileID: 9103523440615997549, guid: 43e2664934025504fb7420a32808fdad, type: 3}
+  - {fileID: 4096525625227709041, guid: 0d24887dfe1913d4ca5ac326be16d421, type: 3}
+  - {fileID: 7990865384313730522, guid: 67e730f10053284428138368a3b9f5a7, type: 3}
+  - {fileID: 1368218308057174808, guid: fd7354b44d9d4084ab3c94fc50683bb3, type: 3}
 --- !u!1 &1114863115
 GameObject:
   m_ObjectHideFlags: 0
@@ -746,13 +809,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1492432945}
-  m_LocalRotation: {x: -0, y: -0.99781525, z: 0.066066265, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 6.143631}
-  m_LocalScale: {x: 1, y: 1.2500001, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 2.5375, z: 5.5}
+  m_LocalScale: {x: 1, y: 1.25, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1640627241}
-  m_RootOrder: 1
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1640627240
 GameObject:
@@ -778,16 +841,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1640627240}
-  m_LocalRotation: {x: 0, y: 0.99781525, z: -0.066066265, w: 0}
-  m_LocalPosition: {x: 0, y: 2.06, z: 11.59}
+  m_LocalRotation: {x: -3.464626e-10, y: 0.99979806, z: -0.020096503, w: -0.000000017236466}
+  m_LocalPosition: {x: 0, y: 3, z: 17}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1117331375}
-  - {fileID: 1492432946}
   - {fileID: 963194228}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1640627242
 MonoBehaviour:
@@ -810,7 +872,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 1492432946}
   m_Follow: {fileID: 0}
   m_Lens:
-    FieldOfView: 60
+    FieldOfView: 80
     OrthographicSize: 5
     NearClipPlane: 0.3
     FarClipPlane: 1000
@@ -827,3 +889,34 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 1117331375}
+--- !u!1 &2099558010
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2099558011}
+  m_Layer: 0
+  m_Name: Rocks
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2099558011
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2099558010}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1070741237}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

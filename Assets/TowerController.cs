@@ -1,13 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TowerController : PlayerInputHandler
 {
+    [SerializeField] private float _maxTowerPartsOnScreen = 7;
     [SerializeField] private float _towerRotatingSpeed;
     [SerializeField] private float _towerDashDistance;
     [SerializeField] private float _towerNormalFallSpeed;
     [SerializeField] private float _towerAcceleratedFallSpeed;
+    [SerializeField] private Transform _towerPartsParent;
     [SerializeField] private PlayerController _player;
 
     [SerializeField] private Transform[] _towerPartsPfs;
@@ -28,6 +31,21 @@ public class TowerController : PlayerInputHandler
 
     // Dash
     private Quaternion _endingRotation;
+
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+
+        TowerPart.OnPlayerHitTopPart += TowerPart_OnPlayerHitTopPart;
+    }
+
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+
+        TowerPart.OnPlayerHitTopPart -= TowerPart_OnPlayerHitTopPart;
+    }
+
     protected override void Awake()
     {
         base.Awake();
@@ -35,6 +53,11 @@ public class TowerController : PlayerInputHandler
         InitializeControls();
 
         SetUpTower();
+    }
+
+    private void TowerPart_OnPlayerHitTopPart(object sender, System.EventArgs e)
+    {
+        SpawnRandomPart();
     }
 
     private void InitializeControls()
@@ -46,17 +69,25 @@ public class TowerController : PlayerInputHandler
         RightPartPressPerformed += TowerController_RightPartPressPerformed;
         RightPartPressCanceled += TowerController_RightPartPressCanceled;
         RightPartMultiTapPerformed += TowerController_RightPartMultiTapPerformed;
+
+        RestartPerformed += TowerController_RestartPerformed;
+    }
+
+    private void TowerController_RestartPerformed(object sender, System.EventArgs e)
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     private void SetUpTower()
     {
         _spawnedParts = new List<Transform>();
 
-        _nextPartPosition = transform.position - Vector3.up * 6;
+        _nextPartPosition = transform.position - Vector3.up * 18;
 
-        SpawnRandomPart();
-        SpawnRandomPart();
-        SpawnRandomPart();
+        for(int i = 0; i < _maxTowerPartsOnScreen; i++)
+        {
+            SpawnRandomPart();
+        }
     }
 
     public void SpawnRandomPart()
@@ -68,13 +99,11 @@ public class TowerController : PlayerInputHandler
         Quaternion randomRotation = Quaternion.Euler(0, Random.Range(0, 360f), 0f);
 
         Transform part = Instantiate(randomPart, _nextPartPosition, randomRotation);
-        part.parent = transform;
-
-        part.GetComponent<TowerPart>().Initialize(this);
+        part.parent = _towerPartsParent;
 
         _spawnedParts.Add(part);
 
-        if(_spawnedParts.Count >= 4)
+        if(_spawnedParts.Count >= _maxTowerPartsOnScreen)
         {
             DeleteOldestPart();
         }
@@ -91,7 +120,12 @@ public class TowerController : PlayerInputHandler
     {
         HandlePlayerInput();
 
-        transform.position += Vector3.down * _towerFallSpeed * Time.deltaTime;
+        TowerFall();
+    }
+
+    private void TowerFall()
+    {
+        _towerPartsParent.position += Vector3.down * _towerFallSpeed * Time.deltaTime;
     }
 
     private void HandlePlayerInput()

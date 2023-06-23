@@ -17,6 +17,8 @@ public class PlayerInputHandler : MonoBehaviour
     protected event EventHandler RightPartPressCanceled;
     protected event EventHandler RightPartMultiTapPerformed;
 
+    protected event EventHandler RestartPerformed;
+
     protected virtual void Awake()
     {
         _playerControls = new PlayerInputs();
@@ -26,6 +28,13 @@ public class PlayerInputHandler : MonoBehaviour
 
         _playerControls.Map.Right.performed += Right_performed;
         _playerControls.Map.Right.canceled += Right_canceled;
+
+        _playerControls.Map.Restart.performed += Restart_performed;
+    }
+
+    private void Restart_performed(InputAction.CallbackContext obj)
+    {
+        RestartPerformed?.Invoke(this, EventArgs.Empty);
     }
 
     private void Right_canceled(InputAction.CallbackContext context)
