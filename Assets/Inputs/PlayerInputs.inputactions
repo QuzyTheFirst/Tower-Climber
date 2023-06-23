@@ -1,0 +1,104 @@
+{
+    "name": "PlayerInputs",
+    "maps": [
+        {
+            "name": "Map",
+            "id": "52f82782-6308-461b-8ec2-5eaf426a83c8",
+            "actions": [
+                {
+                    "name": "Left",
+                    "type": "Value",
+                    "id": "89df8514-d24a-493d-94f9-b87cc1bc4026",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "Press,MultiTap",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Right",
+                    "type": "Value",
+                    "id": "a6e9869e-5093-4d82-a32a-7ad7bb0039ee",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "Press,MultiTap",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "02a1863a-36bd-45c5-9b69-a2439af6e6ce",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "Left",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7db6383c-5f2c-4e27-9192-5675403fa682",
+                    "path": "<Touchscreen>/primaryTouch/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Mobiles",
+                    "action": "Left",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3e36e936-ca70-45eb-9ddc-78adc697faaf",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "Right",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4f96c11a-10ee-4d8a-8d4f-0c2d64b9c1d5",
+                    "path": "<Touchscreen>/touch0/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Mobiles",
+                    "action": "Right",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "KeyboardMouse",
+            "bindingGroup": "KeyboardMouse",
+            "devices": [
+                {
+                    "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<Mouse>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        },
+        {
+            "name": "Mobiles",
+            "bindingGroup": "Mobiles",
+            "devices": [
+                {
+                    "devicePath": "<Touchscreen>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
+}
