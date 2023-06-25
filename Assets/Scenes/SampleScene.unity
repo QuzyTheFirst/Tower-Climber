@@ -500,11 +500,13 @@ MonoBehaviour:
   _rocksParent: {fileID: 2099558011}
   _spawningHeight: 20
   _spawnDistanceFromTowerCenter: 5.5
+  _playerController: {fileID: 1114863121}
   _minTimeBetweenFalls: 0.5
   _maxTimeBetweenFalls: 2
   _minFallingSpeed: 10
   _maxFallingSpeed: 20
   _destroyRocksAfter: 20
+  _everyNRockFallOnPlayer: 4
   _rocksPfs:
   - {fileID: 6833549704285630684, guid: 20c8e5e1b1103f041abc44c8f6776faf, type: 3}
   - {fileID: 8487758314787039282, guid: 0093c1c66a128a84eafb9725b7c8a223, type: 3}
@@ -841,7 +843,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1640627240}
-  m_LocalRotation: {x: -3.464626e-10, y: 0.99979806, z: -0.020096503, w: -0.000000017236466}
+  m_LocalRotation: {x: 3.4646325e-10, y: 0.99979806, z: -0.020096524, w: 0.000000017236479}
   m_LocalPosition: {x: 0, y: 3, z: 17}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

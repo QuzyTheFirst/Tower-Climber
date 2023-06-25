@@ -27,6 +27,8 @@ public class TowerController : PlayerInputHandler
     private bool _isRightButtonPressed;
     private bool _doRightDash;
 
+    private bool _isPlayerHidenInWindow = false;
+
     private Vector3 _nextPartPosition;
 
     // Dash
@@ -37,6 +39,9 @@ public class TowerController : PlayerInputHandler
         base.OnEnable();
 
         TowerPart.OnPlayerHitTopPart += TowerPart_OnPlayerHitTopPart;
+
+        Window.OnPlayerEnterWindow += Window_OnPlayerEnterWindow;
+        Window.OnPlayerExitWindow += Window_OnPlayerExitWindow;
     }
 
     protected override void OnDisable()
@@ -44,6 +49,9 @@ public class TowerController : PlayerInputHandler
         base.OnDisable();
 
         TowerPart.OnPlayerHitTopPart -= TowerPart_OnPlayerHitTopPart;
+
+        Window.OnPlayerEnterWindow -= Window_OnPlayerEnterWindow;
+        Window.OnPlayerExitWindow -= Window_OnPlayerExitWindow;
     }
 
     protected override void Awake()
@@ -53,11 +61,27 @@ public class TowerController : PlayerInputHandler
         InitializeControls();
 
         SetUpTower();
+
+        Window.Initialize(_player.transform);
+        TowerPart.Initialize(_player.transform);
     }
 
     private void TowerPart_OnPlayerHitTopPart(object sender, System.EventArgs e)
     {
         SpawnRandomPart();
+    }
+    private void Window_OnPlayerExitWindow(object sender, System.EventArgs e)
+    {
+        _player.gameObject.layer = 3;
+        _player.ChangeColor(Color.green);
+        _isPlayerHidenInWindow = false;
+    }
+
+    private void Window_OnPlayerEnterWindow(object sender, System.EventArgs e)
+    {
+        _player.gameObject.layer = 8;
+        _player.ChangeColor(Color.yellow);
+        _isPlayerHidenInWindow = true;
     }
 
     private void InitializeControls()
@@ -125,31 +149,33 @@ public class TowerController : PlayerInputHandler
 
     private void TowerFall()
     {
-        _towerPartsParent.position += Vector3.down * _towerFallSpeed * Time.deltaTime;
+        float speedMultiplier = _isPlayerHidenInWindow ? 0 : 1;
+
+        _towerPartsParent.position += Vector3.down * _towerFallSpeed * speedMultiplier * Time.deltaTime;
     }
 
     private void HandlePlayerInput()
     {
         _towerFallSpeed = _isLeftButtonPressed && _isRightButtonPressed ? _towerAcceleratedFallSpeed : _towerNormalFallSpeed;
 
-        if (_isLeftButtonPressed && _player.CanGoLeft() && !_isInDash)
+        if (_isLeftButtonPressed && /*_player.CanGoLeft() &&*/ !_isInDash)
         {
             transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y - _towerRotatingSpeed * Time.deltaTime, 0);
         }
 
-        if (_isRightButtonPressed && _player.CanGoRight() && !_isInDash)
+        if (_isRightButtonPressed && /*_player.CanGoRight() &&*/ !_isInDash)
         {
             transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y + _towerRotatingSpeed * Time.deltaTime, 0);
         }
 
         if (_doLeftDash)
         {
-            if (!_player.CanGoLeft())
+            /**if (!_player.CanGoLeft())
             {
                 _doLeftDash = false;
                 _isInDash = false;
                 return;
-            }
+            }*/
 
 
             transform.rotation = Quaternion.Lerp(transform.rotation, _endingRotation, Time.deltaTime * 8);
@@ -163,12 +189,12 @@ public class TowerController : PlayerInputHandler
 
         if (_doRightDash)
         {
-            if (!_player.CanGoRight())
+            /*if (!_player.CanGoRight())
             {
                 _doRightDash = false;
                 _isInDash = false;
                 return;
-            }
+            }*/
 
             transform.rotation = Quaternion.Lerp(transform.rotation, _endingRotation, Time.deltaTime * 8);
 

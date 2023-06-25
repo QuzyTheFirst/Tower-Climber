@@ -7,9 +7,16 @@ public class TowerPart : MonoBehaviour
 {
     public static event EventHandler OnPlayerHitTopPart;
 
+    private static Transform _player;
+
+    public static void Initialize(Transform player)
+    {
+        _player = player;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.layer == 3)
+        if(other.transform == _player)
         {
             OnPlayerHitTopPart?.Invoke(this, EventArgs.Empty);
         }

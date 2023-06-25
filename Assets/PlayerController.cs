@@ -16,11 +16,13 @@ public class PlayerController : MonoBehaviour
 
     private bool _playerGotAway = false;
 
+    private Renderer _renderer;
 
     private void Awake()
     {
         _rig = GetComponent<Rigidbody>();
         _startingPos = transform.position;
+        _renderer = GetComponent<Renderer>();
     }
 
     private void FixedUpdate()
@@ -57,15 +59,15 @@ public class PlayerController : MonoBehaviour
         return !Physics.Raycast(transform.position, transform.right, _checkForObstaclesDistance, _obstaclesMask);
     }
 
+    public void ChangeColor(Color color)
+    {
+        _renderer.material.color = color;
+    }
+    
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawLine(transform.position, transform.position + transform.right * _checkForObstaclesDistance);
         Gizmos.DrawLine(transform.position, transform.position + -transform.right * _checkForObstaclesDistance);
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        
     }
 }
