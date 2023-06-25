@@ -11,7 +11,6 @@ public class RocksController : MonoBehaviour
     [Header("Spawn Position")]
     [SerializeField] private float _spawningHeight = 10f;
     [SerializeField] private float _spawnDistanceFromTowerCenter;
-    [SerializeField] private PlayerController _playerController;
 
     [Header("Timings")]
     [SerializeField] private float _minTimeBetweenFalls;
@@ -91,7 +90,7 @@ public class RocksController : MonoBehaviour
 
         float randomSpeed = Random.Range(_minFallingSpeed, _maxFallingSpeed);
 
-        Vector3 dirToPlayer = (_playerController.transform.position - transform.position).normalized;
+        Vector3 dirToPlayer = (GameManager.Instance.Player.transform.position - transform.position).normalized;
         float degree = Mathf.Atan2(dirToPlayer.y, dirToPlayer.x) * Mathf.Rad2Deg;
         Quaternion rotation = Quaternion.Euler(0, degree, 0);
 
@@ -109,7 +108,7 @@ public class RocksController : MonoBehaviour
 
     private void Rock_OnRockHitPlayer(object sender, System.EventArgs e)
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        GameManager.Instance.KillPlayer();
     }
 
     private void OnDrawGizmos()

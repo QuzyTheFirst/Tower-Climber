@@ -11,8 +11,6 @@ public class TowerController : PlayerInputHandler
     [SerializeField] private float _towerNormalFallSpeed;
     [SerializeField] private float _towerAcceleratedFallSpeed;
     [SerializeField] private Transform _towerPartsParent;
-    [SerializeField] private PlayerController _player;
-
     [SerializeField] private Transform[] _towerPartsPfs;
 
     private List<Transform> _spawnedParts;
@@ -33,6 +31,7 @@ public class TowerController : PlayerInputHandler
 
     // Dash
     private Quaternion _endingRotation;
+
 
     protected override void OnEnable()
     {
@@ -61,9 +60,6 @@ public class TowerController : PlayerInputHandler
         InitializeControls();
 
         SetUpTower();
-
-        Window.Initialize(_player.transform);
-        TowerPart.Initialize(_player.transform);
     }
 
     private void TowerPart_OnPlayerHitTopPart(object sender, System.EventArgs e)
@@ -72,15 +68,15 @@ public class TowerController : PlayerInputHandler
     }
     private void Window_OnPlayerExitWindow(object sender, System.EventArgs e)
     {
-        _player.gameObject.layer = 3;
-        _player.ChangeColor(Color.green);
+        GameManager.Instance.Player.gameObject.layer = 3;
+        GameManager.Instance.Player.ChangeColor(Color.green);
         _isPlayerHidenInWindow = false;
     }
 
     private void Window_OnPlayerEnterWindow(object sender, System.EventArgs e)
     {
-        _player.gameObject.layer = 8;
-        _player.ChangeColor(Color.yellow);
+        GameManager.Instance.Player.gameObject.layer = 8;
+        GameManager.Instance.Player.ChangeColor(Color.yellow);
         _isPlayerHidenInWindow = true;
     }
 

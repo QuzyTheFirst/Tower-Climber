@@ -8,16 +8,9 @@ public class Window : MonoBehaviour
     public static event EventHandler OnPlayerEnterWindow;
     public static event EventHandler OnPlayerExitWindow;
 
-    private static Transform _playerTf;
-
-    public static void Initialize(Transform playerTf)
-    {
-        _playerTf = playerTf;
-    }
-
     private void OnTriggerEnter(Collider other)
     {
-        if (other.transform == _playerTf)
+        if (other.transform == GameManager.Instance.Player.transform)
         {
             OnPlayerEnterWindow?.Invoke(this, EventArgs.Empty);
         }
@@ -25,7 +18,7 @@ public class Window : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.transform == _playerTf)
+        if (other.transform == GameManager.Instance.Player.transform)
         {
             OnPlayerExitWindow?.Invoke(this, EventArgs.Empty);
         }
