@@ -47,6 +47,8 @@ public class PlayerController : MonoBehaviour
 
             transform.position = _startingPos;
         }
+
+        Debug.Log($"Right {CanGoRight()} | Left {CanGoLeft()} | Up {CanGoUp()}");
     }
 
     public bool CanGoRight()
@@ -59,6 +61,11 @@ public class PlayerController : MonoBehaviour
         return !Physics.Raycast(transform.position, transform.right, _checkForObstaclesDistance, _obstaclesMask);
     }
 
+    public bool CanGoUp()
+    {
+        return !Physics.Raycast(transform.position, transform.up, _checkForObstaclesDistance, _obstaclesMask);
+    }
+
     public void ChangeColor(Color color)
     {
         _renderer.material.color = color;
@@ -68,6 +75,7 @@ public class PlayerController : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawLine(transform.position, transform.position + transform.right * _checkForObstaclesDistance);
+        Gizmos.DrawLine(transform.position, transform.position + transform.up * _checkForObstaclesDistance);
         Gizmos.DrawLine(transform.position, transform.position + -transform.right * _checkForObstaclesDistance);
     }
 }

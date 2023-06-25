@@ -145,7 +145,7 @@ public class TowerController : PlayerInputHandler
 
     private void TowerFall()
     {
-        float speedMultiplier = _isPlayerHidenInWindow ? 0 : 1;
+        float speedMultiplier = GameManager.Instance.Player.CanGoUp() ? 1 : 0;
 
         _towerPartsParent.position += Vector3.down * _towerFallSpeed * speedMultiplier * Time.deltaTime;
     }
@@ -154,24 +154,24 @@ public class TowerController : PlayerInputHandler
     {
         _towerFallSpeed = _isLeftButtonPressed && _isRightButtonPressed ? _towerAcceleratedFallSpeed : _towerNormalFallSpeed;
 
-        if (_isLeftButtonPressed && /*_player.CanGoLeft() &&*/ !_isInDash)
+        if (_isLeftButtonPressed && GameManager.Instance.Player.CanGoLeft() && !_isInDash)
         {
             transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y - _towerRotatingSpeed * Time.deltaTime, 0);
         }
 
-        if (_isRightButtonPressed && /*_player.CanGoRight() &&*/ !_isInDash)
+        if (_isRightButtonPressed && GameManager.Instance.Player.CanGoRight() && !_isInDash)
         {
             transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y + _towerRotatingSpeed * Time.deltaTime, 0);
         }
 
         if (_doLeftDash)
         {
-            /**if (!_player.CanGoLeft())
+            if (!GameManager.Instance.Player.CanGoLeft())
             {
                 _doLeftDash = false;
                 _isInDash = false;
                 return;
-            }*/
+            }
 
 
             transform.rotation = Quaternion.Lerp(transform.rotation, _endingRotation, Time.deltaTime * 8);
@@ -185,12 +185,12 @@ public class TowerController : PlayerInputHandler
 
         if (_doRightDash)
         {
-            /*if (!_player.CanGoRight())
+            if (!GameManager.Instance.Player.CanGoRight())
             {
                 _doRightDash = false;
                 _isInDash = false;
                 return;
-            }*/
+            }
 
             transform.rotation = Quaternion.Lerp(transform.rotation, _endingRotation, Time.deltaTime * 8);
 
