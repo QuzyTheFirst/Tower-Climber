@@ -30,13 +30,11 @@ public class RocksController : MonoBehaviour
     private void OnEnable()
     {
         Rock.OnRockHitPlayer += Rock_OnRockHitPlayer;
-        Rock.OnRockHitWindow += Window_OnRockHitWindow;
     }
 
     private void OnDisable()
     {
         Rock.OnRockHitPlayer -= Rock_OnRockHitPlayer;
-        Rock.OnRockHitWindow -= Window_OnRockHitWindow;
     }
 
     private void Awake()
@@ -111,13 +109,6 @@ public class RocksController : MonoBehaviour
     private void Rock_OnRockHitPlayer(object sender, System.EventArgs e)
     {
         GameManager.Instance.KillPlayer();
-    }
-
-    private void Window_OnRockHitWindow(object sender, System.EventArgs e)
-    {
-        Rock rock = sender as Rock;
-        _spawnedRocks.Remove(rock.transform);
-        Destroy(rock.gameObject);
     }
 
     private void OnDrawGizmos()

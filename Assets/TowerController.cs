@@ -7,7 +7,8 @@ public class TowerController : PlayerInputHandler
 {
     [SerializeField] private float _maxTowerPartsOnScreen = 7;
     [SerializeField] private float _towerRotatingSpeed;
-    [SerializeField] private float _towerDashDistance;
+    [SerializeField] private float _towerRightLeftDashDegreeDistance = 40;
+    [SerializeField] private float _towerUpDashDistance = 3;
     [SerializeField] private float _towerNormalFallSpeed;
     [SerializeField] private float _towerAcceleratedFallSpeed;
     [SerializeField] private Transform _towerPartsParent;
@@ -19,6 +20,9 @@ public class TowerController : PlayerInputHandler
 
     private bool _isInDash = false;
 
+    private bool _isUpButtonPressed;
+    private bool _doUpDash;
+
     private bool _isLeftButtonPressed;
     private bool _doLeftDash;
 
@@ -29,8 +33,17 @@ public class TowerController : PlayerInputHandler
 
     private Vector3 _nextPartPosition;
 
+    private bool _enteringWindowAnimation = false;
+    private Quaternion _preferedTowerRotation;
+    private Vector3 _preferedTowerPosition;
+
     // Dash
-    private Quaternion _endingRotation;
+    private Quaternion _endDashRotation;
+    private Vector3 _endDashPosition;
+
+    //Scores
+    private Vector3 _lastTowerPos;
+    public float _scorePoints = 0;
 
 
     protected override void OnEnable()
@@ -68,6 +81,8 @@ public class TowerController : PlayerInputHandler
     }
     private void Window_OnPlayerExitWindow(object sender, System.EventArgs e)
     {
+        Window window = sender as Window;
+
         GameManager.Instance.Player.gameObject.layer = 3;
         GameManager.Instance.Player.ChangeColor(Color.green);
         _isPlayerHidenInWindow = false;
@@ -75,9 +90,30 @@ public class TowerController : PlayerInputHandler
 
     private void Window_OnPlayerEnterWindow(object sender, System.EventArgs e)
     {
-        GameManager.Instance.Player.gameObject.layer = 8;
-        GameManager.Instance.Player.ChangeColor(Color.yellow);
+        Window window = sender as Window;
+        if (window.PlayerHasEntered)
+            return;
+
+        window.PlayerHasEntered = true;
+
+        PlayerController player = GameManager.Instance.Player;
+
+        Vector3 toPlayer = player.transform.position - transform.position;
+        Vector2 toPlayerDir = new Vector2(toPlayer.x, toPlayer.z).normalized;
+        float playerDegree = Mathf.Atan2(toPlayerDir.y, toPlayerDir.x) * Mathf.Rad2Deg;
+
+        Vector3 toWindow = (window.transform.position - transform.position);
+        Vector2 toWindowDir = new Vector2(toWindow.x, toWindow.z).normalized;
+        float windowDegree = Mathf.Atan2(toWindowDir.y, toWindowDir.x) * Mathf.Rad2Deg;
+
+        float degree = windowDegree - playerDegree;
+        _preferedTowerRotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y + degree , 0);
+        _preferedTowerPosition = _towerPartsParent.transform.position - Vector3.up * window.transform.position.y;
+
+        player.gameObject.layer = 8;
+        player.ChangeColor(Color.yellow);
         _isPlayerHidenInWindow = true;
+        _enteringWindowAnimation = true;
     }
 
     private void InitializeControls()
@@ -89,6 +125,9 @@ public class TowerController : PlayerInputHandler
         RightPartPressPerformed += TowerController_RightPartPressPerformed;
         RightPartPressCanceled += TowerController_RightPartPressCanceled;
         RightPartMultiTapPerformed += TowerController_RightPartMultiTapPerformed;
+
+        UpPressPerformed += TowerController_UpPressPerformed;
+        UpPressCanceled += TowerController_UpPressCanceled;
 
         RestartPerformed += TowerController_RestartPerformed;
     }
@@ -138,45 +177,111 @@ public class TowerController : PlayerInputHandler
 
     private void Update()
     {
+        _lastTowerPos = _towerPartsParent.localPosition;
+
         HandlePlayerInput();
 
         TowerFall();
+
+        if (_enteringWindowAnimation)
+        {
+            transform.rotation = Quaternion.Lerp(transform.rotation, _preferedTowerRotation, Time.deltaTime * 8);
+            _towerPartsParent.position = Vector3.Lerp(_towerPartsParent.position, _preferedTowerPosition, Time.deltaTime * 8);
+
+            bool rotationBool = Mathf.Abs(transform.rotation.eulerAngles.y - _preferedTowerRotation.eulerAngles.y) < 2;
+            bool positionBool = Vector3.Distance(_towerPartsParent.position, _preferedTowerPosition) < .05f;
+            
+            if(rotationBool && positionBool)
+            {
+                _enteringWindowAnimation = false;
+            }
+        }
+
+        _scorePoints = -_towerPartsParent.localPosition.y;
+        GameUIController.Instance.setInGameScoreText((_scorePoints).ToString("##."));
     }
 
     private void TowerFall()
     {
-        float speedMultiplier = GameManager.Instance.Player.CanGoUp() ? 1 : 0;
+        if (_enteringWindowAnimation)
+            return;
+
+        float speedMultiplier = _isPlayerHidenInWindow || _doUpDash ? 0 : 1;
 
         _towerPartsParent.position += Vector3.down * _towerFallSpeed * speedMultiplier * Time.deltaTime;
     }
 
     private void HandlePlayerInput()
     {
+        if (_enteringWindowAnimation)
+            return;
+
         _towerFallSpeed = _isLeftButtonPressed && _isRightButtonPressed ? _towerAcceleratedFallSpeed : _towerNormalFallSpeed;
 
-        if (_isLeftButtonPressed && GameManager.Instance.Player.CanGoLeft() && !_isInDash)
+        if (_isLeftButtonPressed && !_isInDash)
         {
-            transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y - _towerRotatingSpeed * Time.deltaTime, 0);
+            if (!_isPlayerHidenInWindow)
+            {
+                transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y - _towerRotatingSpeed * Time.deltaTime, 0);
+            }
+            else
+            {
+                _endDashRotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y - _towerRightLeftDashDegreeDistance, 0);
+                _doLeftDash = true;
+                _isInDash = true;
+
+                _isPlayerHidenInWindow = false;
+            }
         }
 
-        if (_isRightButtonPressed && GameManager.Instance.Player.CanGoRight() && !_isInDash)
+
+        if (_isRightButtonPressed && !_isInDash)
         {
-            transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y + _towerRotatingSpeed * Time.deltaTime, 0);
+            if (!_isPlayerHidenInWindow) 
+            { 
+                transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y + _towerRotatingSpeed * Time.deltaTime, 0);
+            }
+            else
+            {
+                _endDashRotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y + _towerRightLeftDashDegreeDistance, 0);
+                _doRightDash = true;
+                _isInDash = true;
+
+                _isPlayerHidenInWindow = false;
+            }
+        }
+
+        if (_doUpDash)
+        {
+            if (_isPlayerHidenInWindow)
+            {
+                _doUpDash = false;
+                _isInDash = false;
+            }
+
+            _towerPartsParent.position = Vector3.Lerp(_towerPartsParent.position, _endDashPosition, Time.deltaTime * 8);
+
+            if (Vector3.Distance(_towerPartsParent.position, _endDashPosition) < .05f)
+            {
+                _towerPartsParent.position = _endDashPosition;
+                _doUpDash = false;
+                _isInDash = false;
+
+                _isPlayerHidenInWindow = false;
+            }
         }
 
         if (_doLeftDash)
         {
-            if (!GameManager.Instance.Player.CanGoLeft())
+            if (_isPlayerHidenInWindow)
             {
                 _doLeftDash = false;
                 _isInDash = false;
-                return;
             }
 
+            transform.rotation = Quaternion.Lerp(transform.rotation, _endDashRotation, Time.deltaTime * 8);
 
-            transform.rotation = Quaternion.Lerp(transform.rotation, _endingRotation, Time.deltaTime * 8);
-
-            if (Mathf.Abs(transform.rotation.eulerAngles.y - _endingRotation.eulerAngles.y) < 2)
+            if (Mathf.Abs(transform.rotation.eulerAngles.y - _endDashRotation.eulerAngles.y) < 2)
             {
                 _doLeftDash = false;
                 _isInDash = false;
@@ -185,16 +290,15 @@ public class TowerController : PlayerInputHandler
 
         if (_doRightDash)
         {
-            if (!GameManager.Instance.Player.CanGoRight())
+            if (_isPlayerHidenInWindow)
             {
                 _doRightDash = false;
                 _isInDash = false;
-                return;
             }
 
-            transform.rotation = Quaternion.Lerp(transform.rotation, _endingRotation, Time.deltaTime * 8);
+            transform.rotation = Quaternion.Lerp(transform.rotation, _endDashRotation, Time.deltaTime * 8);
 
-            if (Mathf.Abs(transform.rotation.eulerAngles.y - _endingRotation.eulerAngles.y) < 2)
+            if (Mathf.Abs(transform.rotation.eulerAngles.y - _endDashRotation.eulerAngles.y) < 2)
             {
                 _doRightDash = false;
                 _isInDash = false;
@@ -204,7 +308,10 @@ public class TowerController : PlayerInputHandler
 
     private void TowerController_RightPartMultiTapPerformed(object sender, System.EventArgs e)
     {
-        _endingRotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y + _towerDashDistance, 0);
+        if (_isInDash)
+            return;
+
+        _endDashRotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y + _towerRightLeftDashDegreeDistance, 0);
         _doRightDash = true;
         _isInDash = true;
     }
@@ -221,7 +328,10 @@ public class TowerController : PlayerInputHandler
 
     private void TowerController_LeftPartMultiTapPerformed(object sender, System.EventArgs e)
     {
-        _endingRotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y - _towerDashDistance, 0);
+        if (_isInDash)
+            return;
+
+        _endDashRotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y - _towerRightLeftDashDegreeDistance, 0);
         _doLeftDash = true;
         _isInDash = true;
     }
@@ -234,5 +344,23 @@ public class TowerController : PlayerInputHandler
     private void TowerController_LeftPartPressPerformed(object sender, System.EventArgs e)
     {
         _isLeftButtonPressed = true;
+    }
+
+    private void TowerController_UpPressCanceled(object sender, System.EventArgs e)
+    {
+        _isUpButtonPressed = false;
+    }
+
+    private void TowerController_UpPressPerformed(object sender, System.EventArgs e)
+    {
+        if (_isInDash || !_isPlayerHidenInWindow)
+            return;
+
+        _isInDash = true;
+        _doUpDash = true;
+        _endDashPosition = _towerPartsParent.position - Vector3.up * _towerUpDashDistance;
+        _isUpButtonPressed = true;
+
+        _isPlayerHidenInWindow = false;
     }
 }

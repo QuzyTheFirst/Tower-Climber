@@ -17,6 +17,9 @@ public class PlayerInputHandler : MonoBehaviour
     protected event EventHandler RightPartPressCanceled;
     protected event EventHandler RightPartMultiTapPerformed;
 
+    protected event EventHandler UpPressPerformed;
+    protected event EventHandler UpPressCanceled;
+
     protected event EventHandler RestartPerformed;
 
     protected virtual void Awake()
@@ -29,7 +32,20 @@ public class PlayerInputHandler : MonoBehaviour
         _playerControls.Map.Right.performed += Right_performed;
         _playerControls.Map.Right.canceled += Right_canceled;
 
+        _playerControls.Map.Up.performed += Up_performed;
+        _playerControls.Map.Up.canceled += Up_canceled;
+
         _playerControls.Map.Restart.performed += Restart_performed;
+    }
+
+    private void Up_canceled(InputAction.CallbackContext obj)
+    {
+        UpPressCanceled?.Invoke(this, EventArgs.Empty);
+    }
+
+    private void Up_performed(InputAction.CallbackContext obj)
+    {
+        UpPressPerformed?.Invoke(this, EventArgs.Empty);
     }
 
     private void Restart_performed(InputAction.CallbackContext obj)

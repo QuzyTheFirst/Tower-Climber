@@ -53,6 +53,15 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Up"",
+                    ""type"": ""Button"",
+                    ""id"": ""60594ac3-76a6-4f3c-831c-559466f943fd"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -110,6 +119,17 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""action"": ""Restart"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""707793e6-4a9b-48ca-bcb3-b83ca2ad3a7b"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""Up"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -149,6 +169,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         m_Map_Left = m_Map.FindAction("Left", throwIfNotFound: true);
         m_Map_Right = m_Map.FindAction("Right", throwIfNotFound: true);
         m_Map_Restart = m_Map.FindAction("Restart", throwIfNotFound: true);
+        m_Map_Up = m_Map.FindAction("Up", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -213,6 +234,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
     private readonly InputAction m_Map_Left;
     private readonly InputAction m_Map_Right;
     private readonly InputAction m_Map_Restart;
+    private readonly InputAction m_Map_Up;
     public struct MapActions
     {
         private @PlayerInputs m_Wrapper;
@@ -220,6 +242,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         public InputAction @Left => m_Wrapper.m_Map_Left;
         public InputAction @Right => m_Wrapper.m_Map_Right;
         public InputAction @Restart => m_Wrapper.m_Map_Restart;
+        public InputAction @Up => m_Wrapper.m_Map_Up;
         public InputActionMap Get() { return m_Wrapper.m_Map; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -238,6 +261,9 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @Restart.started += instance.OnRestart;
             @Restart.performed += instance.OnRestart;
             @Restart.canceled += instance.OnRestart;
+            @Up.started += instance.OnUp;
+            @Up.performed += instance.OnUp;
+            @Up.canceled += instance.OnUp;
         }
 
         private void UnregisterCallbacks(IMapActions instance)
@@ -251,6 +277,9 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @Restart.started -= instance.OnRestart;
             @Restart.performed -= instance.OnRestart;
             @Restart.canceled -= instance.OnRestart;
+            @Up.started -= instance.OnUp;
+            @Up.performed -= instance.OnUp;
+            @Up.canceled -= instance.OnUp;
         }
 
         public void RemoveCallbacks(IMapActions instance)
@@ -291,5 +320,6 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         void OnLeft(InputAction.CallbackContext context);
         void OnRight(InputAction.CallbackContext context);
         void OnRestart(InputAction.CallbackContext context);
+        void OnUp(InputAction.CallbackContext context);
     }
 }

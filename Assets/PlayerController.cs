@@ -47,8 +47,6 @@ public class PlayerController : MonoBehaviour
 
             transform.position = _startingPos;
         }
-
-        Debug.Log($"Right {CanGoRight()} | Left {CanGoLeft()} | Up {CanGoUp()}");
     }
 
     public bool CanGoRight()

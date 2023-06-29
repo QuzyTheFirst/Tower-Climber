@@ -8,7 +8,9 @@ public class Window : MonoBehaviour
     public static event EventHandler OnPlayerEnterWindow;
     public static event EventHandler OnPlayerExitWindow;
 
-    /*private void OnTriggerEnter(Collider other)
+    public bool PlayerHasEntered = false;
+
+    private void OnTriggerEnter(Collider other)
     {
         if (other.transform == GameManager.Instance.Player.transform)
         {
@@ -22,5 +24,5 @@ public class Window : MonoBehaviour
         {
             OnPlayerExitWindow?.Invoke(this, EventArgs.Empty);
         }
-    }*/
+    }
 }
