@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameUIController : MonoBehaviour
 {
@@ -133,6 +134,10 @@ public class GameUIController : MonoBehaviour
         GameManager.Instance.ToggleInGamePause(false);
 
         _inGameInterface.SetActive(true);
-        Debug.Log("Game is activated");
+    }
+
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

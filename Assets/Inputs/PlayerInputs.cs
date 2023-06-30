@@ -28,106 +28,44 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             ""id"": ""52f82782-6308-461b-8ec2-5eaf426a83c8"",
             ""actions"": [
                 {
-                    ""name"": ""Left"",
+                    ""name"": ""FirstFinger"",
                     ""type"": ""Value"",
-                    ""id"": ""89df8514-d24a-493d-94f9-b87cc1bc4026"",
-                    ""expectedControlType"": ""Vector2"",
+                    ""id"": ""a7fc2a11-ad0e-435d-9362-05ef6720631a"",
+                    ""expectedControlType"": ""Touch"",
                     ""processors"": """",
-                    ""interactions"": ""Press,MultiTap"",
+                    ""interactions"": """",
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Right"",
+                    ""name"": ""SecondFinger"",
                     ""type"": ""Value"",
-                    ""id"": ""a6e9869e-5093-4d82-a32a-7ad7bb0039ee"",
-                    ""expectedControlType"": ""Vector2"",
+                    ""id"": ""5373e9d5-ade8-4694-9418-6cb602f197fb"",
+                    ""expectedControlType"": ""Touch"",
                     ""processors"": """",
-                    ""interactions"": ""Press,MultiTap"",
+                    ""interactions"": """",
                     ""initialStateCheck"": true
-                },
-                {
-                    ""name"": ""Restart"",
-                    ""type"": ""Button"",
-                    ""id"": ""e79b0a4e-7dd0-48cc-b046-f438318fadbe"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Up"",
-                    ""type"": ""Button"",
-                    ""id"": ""60594ac3-76a6-4f3c-831c-559466f943fd"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
                 {
                     ""name"": """",
-                    ""id"": ""02a1863a-36bd-45c5-9b69-a2439af6e6ce"",
-                    ""path"": ""<Keyboard>/a"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""KeyboardMouse"",
-                    ""action"": ""Left"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""7db6383c-5f2c-4e27-9192-5675403fa682"",
-                    ""path"": ""<Touchscreen>/primaryTouch/position"",
+                    ""id"": ""32e28dad-f89a-4f35-a285-3a1bafa4a04b"",
+                    ""path"": ""<Touchscreen>/primaryTouch"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Mobiles"",
-                    ""action"": ""Left"",
+                    ""action"": ""FirstFinger"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""3e36e936-ca70-45eb-9ddc-78adc697faaf"",
-                    ""path"": ""<Keyboard>/d"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""KeyboardMouse"",
-                    ""action"": ""Right"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""4f96c11a-10ee-4d8a-8d4f-0c2d64b9c1d5"",
-                    ""path"": ""<Touchscreen>/touch0/position"",
+                    ""id"": ""da827987-4d89-4864-8d2d-8256f2c01a29"",
+                    ""path"": ""<Touchscreen>/touch1"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Mobiles"",
-                    ""action"": ""Right"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""5a8c7fd8-e25e-4a40-9d4e-b19b129400d9"",
-                    ""path"": ""<Keyboard>/r"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""KeyboardMouse"",
-                    ""action"": ""Restart"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""707793e6-4a9b-48ca-bcb3-b83ca2ad3a7b"",
-                    ""path"": ""<Keyboard>/w"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""KeyboardMouse"",
-                    ""action"": ""Up"",
+                    ""action"": ""SecondFinger"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -166,10 +104,8 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
 }");
         // Map
         m_Map = asset.FindActionMap("Map", throwIfNotFound: true);
-        m_Map_Left = m_Map.FindAction("Left", throwIfNotFound: true);
-        m_Map_Right = m_Map.FindAction("Right", throwIfNotFound: true);
-        m_Map_Restart = m_Map.FindAction("Restart", throwIfNotFound: true);
-        m_Map_Up = m_Map.FindAction("Up", throwIfNotFound: true);
+        m_Map_FirstFinger = m_Map.FindAction("FirstFinger", throwIfNotFound: true);
+        m_Map_SecondFinger = m_Map.FindAction("SecondFinger", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -231,18 +167,14 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
     // Map
     private readonly InputActionMap m_Map;
     private List<IMapActions> m_MapActionsCallbackInterfaces = new List<IMapActions>();
-    private readonly InputAction m_Map_Left;
-    private readonly InputAction m_Map_Right;
-    private readonly InputAction m_Map_Restart;
-    private readonly InputAction m_Map_Up;
+    private readonly InputAction m_Map_FirstFinger;
+    private readonly InputAction m_Map_SecondFinger;
     public struct MapActions
     {
         private @PlayerInputs m_Wrapper;
         public MapActions(@PlayerInputs wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Left => m_Wrapper.m_Map_Left;
-        public InputAction @Right => m_Wrapper.m_Map_Right;
-        public InputAction @Restart => m_Wrapper.m_Map_Restart;
-        public InputAction @Up => m_Wrapper.m_Map_Up;
+        public InputAction @FirstFinger => m_Wrapper.m_Map_FirstFinger;
+        public InputAction @SecondFinger => m_Wrapper.m_Map_SecondFinger;
         public InputActionMap Get() { return m_Wrapper.m_Map; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -252,34 +184,22 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_MapActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_MapActionsCallbackInterfaces.Add(instance);
-            @Left.started += instance.OnLeft;
-            @Left.performed += instance.OnLeft;
-            @Left.canceled += instance.OnLeft;
-            @Right.started += instance.OnRight;
-            @Right.performed += instance.OnRight;
-            @Right.canceled += instance.OnRight;
-            @Restart.started += instance.OnRestart;
-            @Restart.performed += instance.OnRestart;
-            @Restart.canceled += instance.OnRestart;
-            @Up.started += instance.OnUp;
-            @Up.performed += instance.OnUp;
-            @Up.canceled += instance.OnUp;
+            @FirstFinger.started += instance.OnFirstFinger;
+            @FirstFinger.performed += instance.OnFirstFinger;
+            @FirstFinger.canceled += instance.OnFirstFinger;
+            @SecondFinger.started += instance.OnSecondFinger;
+            @SecondFinger.performed += instance.OnSecondFinger;
+            @SecondFinger.canceled += instance.OnSecondFinger;
         }
 
         private void UnregisterCallbacks(IMapActions instance)
         {
-            @Left.started -= instance.OnLeft;
-            @Left.performed -= instance.OnLeft;
-            @Left.canceled -= instance.OnLeft;
-            @Right.started -= instance.OnRight;
-            @Right.performed -= instance.OnRight;
-            @Right.canceled -= instance.OnRight;
-            @Restart.started -= instance.OnRestart;
-            @Restart.performed -= instance.OnRestart;
-            @Restart.canceled -= instance.OnRestart;
-            @Up.started -= instance.OnUp;
-            @Up.performed -= instance.OnUp;
-            @Up.canceled -= instance.OnUp;
+            @FirstFinger.started -= instance.OnFirstFinger;
+            @FirstFinger.performed -= instance.OnFirstFinger;
+            @FirstFinger.canceled -= instance.OnFirstFinger;
+            @SecondFinger.started -= instance.OnSecondFinger;
+            @SecondFinger.performed -= instance.OnSecondFinger;
+            @SecondFinger.canceled -= instance.OnSecondFinger;
         }
 
         public void RemoveCallbacks(IMapActions instance)
@@ -317,9 +237,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
     }
     public interface IMapActions
     {
-        void OnLeft(InputAction.CallbackContext context);
-        void OnRight(InputAction.CallbackContext context);
-        void OnRestart(InputAction.CallbackContext context);
-        void OnUp(InputAction.CallbackContext context);
+        void OnFirstFinger(InputAction.CallbackContext context);
+        void OnSecondFinger(InputAction.CallbackContext context);
     }
 }

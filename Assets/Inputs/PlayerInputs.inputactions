@@ -6,106 +6,44 @@
             "id": "52f82782-6308-461b-8ec2-5eaf426a83c8",
             "actions": [
                 {
-                    "name": "Left",
+                    "name": "FirstFinger",
                     "type": "Value",
-                    "id": "89df8514-d24a-493d-94f9-b87cc1bc4026",
-                    "expectedControlType": "Vector2",
+                    "id": "a7fc2a11-ad0e-435d-9362-05ef6720631a",
+                    "expectedControlType": "Touch",
                     "processors": "",
-                    "interactions": "Press,MultiTap",
+                    "interactions": "",
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Right",
+                    "name": "SecondFinger",
                     "type": "Value",
-                    "id": "a6e9869e-5093-4d82-a32a-7ad7bb0039ee",
-                    "expectedControlType": "Vector2",
+                    "id": "5373e9d5-ade8-4694-9418-6cb602f197fb",
+                    "expectedControlType": "Touch",
                     "processors": "",
-                    "interactions": "Press,MultiTap",
+                    "interactions": "",
                     "initialStateCheck": true
-                },
-                {
-                    "name": "Restart",
-                    "type": "Button",
-                    "id": "e79b0a4e-7dd0-48cc-b046-f438318fadbe",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Up",
-                    "type": "Button",
-                    "id": "60594ac3-76a6-4f3c-831c-559466f943fd",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 }
             ],
             "bindings": [
                 {
                     "name": "",
-                    "id": "02a1863a-36bd-45c5-9b69-a2439af6e6ce",
-                    "path": "<Keyboard>/a",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "KeyboardMouse",
-                    "action": "Left",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "7db6383c-5f2c-4e27-9192-5675403fa682",
-                    "path": "<Touchscreen>/primaryTouch/position",
+                    "id": "32e28dad-f89a-4f35-a285-3a1bafa4a04b",
+                    "path": "<Touchscreen>/primaryTouch",
                     "interactions": "",
                     "processors": "",
                     "groups": "Mobiles",
-                    "action": "Left",
+                    "action": "FirstFinger",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "3e36e936-ca70-45eb-9ddc-78adc697faaf",
-                    "path": "<Keyboard>/d",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "KeyboardMouse",
-                    "action": "Right",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "4f96c11a-10ee-4d8a-8d4f-0c2d64b9c1d5",
-                    "path": "<Touchscreen>/touch0/position",
+                    "id": "da827987-4d89-4864-8d2d-8256f2c01a29",
+                    "path": "<Touchscreen>/touch1",
                     "interactions": "",
                     "processors": "",
                     "groups": "Mobiles",
-                    "action": "Right",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "5a8c7fd8-e25e-4a40-9d4e-b19b129400d9",
-                    "path": "<Keyboard>/r",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "KeyboardMouse",
-                    "action": "Restart",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "707793e6-4a9b-48ca-bcb3-b83ca2ad3a7b",
-                    "path": "<Keyboard>/w",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "KeyboardMouse",
-                    "action": "Up",
+                    "action": "SecondFinger",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
