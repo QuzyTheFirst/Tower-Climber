@@ -35,7 +35,7 @@ public class TowerController : PlayerInputHandler
 
     //Scores
     private Vector3 _lastTowerPos;
-    public float _scorePoints = 0;
+    private float _scorePoints = 0;
 
     private Vector3 _towerPreferedPosition;
     private Quaternion _towerPreferedRotation;

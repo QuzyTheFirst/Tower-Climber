@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviour, IDataPersistance
 {
     public enum GameLanguage
     {
@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int _targetFrameRate = 60;
     [SerializeField] private PlayerController _playerController;
     [SerializeField] private TowerController _towerController;
+
+    [SerializeField] private int _maxScorePoints = 0;
 
     public PlayerController Player { get { return _playerController; } }
 
@@ -35,8 +37,6 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
-        Application.targetFrameRate = _targetFrameRate;
 
         ToggleInGamePause(true);
     }
@@ -57,6 +57,22 @@ public class GameManager : MonoBehaviour
         ToggleInGamePause(true);
         GameUIController.Instance.ToggleDeathMenu(true);
         GameUIController.Instance.setDeathMenuScoreText($"Score: {_towerController.ScorePoints}");
+        if(_towerController.ScorePoints > _maxScorePoints)
+        {
+            _maxScorePoints = _towerController.ScorePoints;
+            GameUIController.Instance.setMainMenuScoreText(_maxScorePoints.ToString());
+        }
         //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void LoadData(GameData data)
+    {
+        _maxScorePoints = data.RecordScorePoints;
+        GameUIController.Instance.setMainMenuScoreText(_maxScorePoints.ToString());
+    }
+
+    public void SaveData(GameData data)
+    {
+        data.RecordScorePoints = _maxScorePoints;
     }
 }
