@@ -29,11 +29,9 @@ public class TowerController : PlayerInputHandler
     private bool _isInRightDash;
     private bool _isInLeftDash;
 
-    private bool _isPlayerHidenInWindow = false;
+    private bool _hasPlayerEnteredWindow = false;
 
     private Vector3 _nextPartPosition;
-
-    private bool _isEnteringWindowAnimation = false;
 
     //Scores
     private Vector3 _lastTowerPos;
@@ -66,6 +64,14 @@ public class TowerController : PlayerInputHandler
         get
         {
             return _isInRightDash || _isInLeftDash || _isInUpDash;
+        }
+    }
+
+    public int ScorePoints
+    {
+        get
+        {
+            return Mathf.RoundToInt(_scorePoints);
         }
     }
 
@@ -111,16 +117,18 @@ public class TowerController : PlayerInputHandler
 
         GameManager.Instance.Player.gameObject.layer = 3;
         GameManager.Instance.Player.ChangeColor(Color.green);
-        _isPlayerHidenInWindow = false;
+        _hasPlayerEnteredWindow = false;
     }
 
     private void Window_OnPlayerEnterWindow(object sender, System.EventArgs e)
     {
         Window window = sender as Window;
+
         if (window.PlayerHasEntered)
             return;
-
         window.PlayerHasEntered = true;
+
+        StopDashCoroutine();
 
         PlayerController player = GameManager.Instance.Player;
 
@@ -138,7 +146,7 @@ public class TowerController : PlayerInputHandler
 
         player.gameObject.layer = 8;
         player.ChangeColor(Color.yellow);
-        _isEnteringWindowAnimation = true;
+        _hasPlayerEnteredWindow = true;
     }
 
     private void InitializeControls()
@@ -202,24 +210,10 @@ public class TowerController : PlayerInputHandler
 
         TowerFall();
 
-        if (_isEnteringWindowAnimation)
-        {
-            bool rotationBool = Mathf.Abs(transform.rotation.eulerAngles.y - _towerPreferedRotation.eulerAngles.y) < 2;
-            bool positionBool = Vector3.Distance(_towerPartsParent.position, _towerPreferedPosition) < .05f;
-            
-            if(rotationBool && positionBool)
-            {
-                _isPlayerHidenInWindow = true;
-                _isEnteringWindowAnimation = false;
-            }
-        }
-
         _scorePoints = -_towerPreferedPosition.y;
         GameUIController.Instance.setInGameScoreText((_scorePoints).ToString("##."));
 
         UpdateTowerPositionAndRotation();
-
-        //Debug.Log($"isInDash: {_isInDash} | dashCoroutine: {_dashCoroutine != null}");
     }
 
     private void UpdateTowerPositionAndRotation()
@@ -237,22 +231,16 @@ public class TowerController : PlayerInputHandler
 
     private void TowerFall()
     {
-        if (_isEnteringWindowAnimation)
-            return;
-
-        float speedMultiplier = _isPlayerHidenInWindow || _isInUpDash ? 0 : 1;
+        float speedMultiplier = _hasPlayerEnteredWindow || _isInUpDash ? 0 : 1;
 
         _towerPreferedPosition += Vector3.down * _towerFallSpeed * speedMultiplier * Time.deltaTime;
     }
 
     private void HandlePlayerInput()
     {
-        if (_isEnteringWindowAnimation)
-            return;
-
         _towerFallSpeed = _isFingerOnLeftPart && _isFingerOnRightPart ? _towerAcceleratedFallSpeed : _towerNormalFallSpeed;
 
-        if(!_isInDash && !_isPlayerHidenInWindow)
+        if(!_isInDash && !_hasPlayerEnteredWindow)
         {
             if (_isFingerOnLeftPart)
             {
@@ -273,8 +261,8 @@ public class TowerController : PlayerInputHandler
         
         _isInLeftDash = true;
 
-        if (_isPlayerHidenInWindow)
-            _isPlayerHidenInWindow = false;
+        if (_hasPlayerEnteredWindow)
+            _hasPlayerEnteredWindow = false;
 
         Quaternion endDashRotation = Quaternion.Euler(0, _towerPreferedRotation.eulerAngles.y - _towerRightLeftDashDegreeDistance, 0);
 
@@ -282,12 +270,6 @@ public class TowerController : PlayerInputHandler
 
         while (dashTimer >= 1)
         {
-            if (_isEnteringWindowAnimation)
-            {
-                _isInLeftDash = false;
-                yield return null;
-            }
-
             dashTimer += Time.deltaTime / _towerDashTime;
             _towerPreferedRotation = Quaternion.Lerp(_towerPreferedRotation, endDashRotation, dashTimer);
             yield return new WaitForEndOfFrame();
@@ -297,7 +279,7 @@ public class TowerController : PlayerInputHandler
 
         _isInLeftDash = false;
 
-        Debug.Log("Left Dash Done");
+        //Debug.Log($"Left Dash Done: {Time.time}");
     }
 
     IEnumerator DoRightDash()
@@ -307,8 +289,8 @@ public class TowerController : PlayerInputHandler
         
         _isInRightDash = true;
 
-        if(_isPlayerHidenInWindow)
-            _isPlayerHidenInWindow = false;
+        if(_hasPlayerEnteredWindow)
+            _hasPlayerEnteredWindow = false;
 
         Quaternion endDashRotation = Quaternion.Euler(0, _towerPreferedRotation.eulerAngles.y + _towerRightLeftDashDegreeDistance, 0);
 
@@ -316,12 +298,6 @@ public class TowerController : PlayerInputHandler
 
         while (dashTimer >= 1)
         {
-            if (_isEnteringWindowAnimation)
-            {
-                _isInRightDash = false;
-                yield return null;
-            }
-
             dashTimer += Time.deltaTime / _towerDashTime;
             _towerPreferedRotation = Quaternion.Lerp(_towerPreferedRotation, endDashRotation, dashTimer);
             yield return new WaitForEndOfFrame();
@@ -331,17 +307,17 @@ public class TowerController : PlayerInputHandler
 
         _isInRightDash = false;
 
-        Debug.Log("Right Dash Done");
+        //Debug.Log($"Right Dash Done: {Time.time}");
     }
 
     IEnumerator DoUpDash() 
     {
-        if (_isInDash || !_isPlayerHidenInWindow) 
+        if (_isInDash || !_hasPlayerEnteredWindow) 
             yield return null;
 
         _isInUpDash = true;
 
-        _isPlayerHidenInWindow = false;
+        _hasPlayerEnteredWindow = false;
 
         Vector3 endDashPosition = _towerPartsParent.position - Vector3.up * _towerUpDashDistance;
 
@@ -349,12 +325,6 @@ public class TowerController : PlayerInputHandler
 
         while (dashTimer >= 1)
         {
-            if (_isEnteringWindowAnimation)
-            {
-                _isInUpDash = false;
-                yield return null;
-            }
-
             dashTimer += Time.deltaTime / _towerDashTime;
             _towerPreferedPosition = Vector3.Lerp(_towerPreferedPosition, endDashPosition, dashTimer);
             yield return new WaitForEndOfFrame();
@@ -364,7 +334,20 @@ public class TowerController : PlayerInputHandler
 
         _isInUpDash = false;
 
-        Debug.Log("Up Dash Done");
+        //Debug.Log($"Up Dash Done: {Time.time}");
+    }
+
+    private void StopDashCoroutine()
+    {
+        if (_isInDash)
+        {
+            if (_dashCoroutine != null)
+                StopCoroutine(_dashCoroutine);
+
+            _isInLeftDash = false;
+            _isInRightDash = false;
+            _isInUpDash = false;
+        }
     }
 
     #region Controls
@@ -406,7 +389,7 @@ public class TowerController : PlayerInputHandler
 
     private void TowerController_OnUpSwipe(object sender, System.EventArgs e)
     {
-        if (_isInDash || !_isPlayerHidenInWindow)
+        if (_isInDash || !_hasPlayerEnteredWindow)
             return;
 
         _dashCoroutine = StartCoroutine(DoUpDash());

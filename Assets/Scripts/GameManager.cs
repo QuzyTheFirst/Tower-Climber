@@ -14,9 +14,16 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance;
 
+    [SerializeField] private int _targetFrameRate = 60;
     [SerializeField] private PlayerController _playerController;
+    [SerializeField] private TowerController _towerController;
 
     public PlayerController Player { get { return _playerController; } }
+
+    private void OnValidate()
+    {
+        Application.targetFrameRate = _targetFrameRate;
+    }
 
     private void Awake()
     {
@@ -28,6 +35,8 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        Application.targetFrameRate = _targetFrameRate;
 
         ToggleInGamePause(true);
     }
@@ -47,6 +56,7 @@ public class GameManager : MonoBehaviour
     {
         ToggleInGamePause(true);
         GameUIController.Instance.ToggleDeathMenu(true);
+        GameUIController.Instance.setDeathMenuScoreText($"Score: {_towerController.ScorePoints}");
         //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

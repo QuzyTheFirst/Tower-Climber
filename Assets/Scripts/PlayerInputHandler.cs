@@ -11,7 +11,14 @@ public class PlayerInputHandler : MonoBehaviour
     private Vector2 _firstFingerStartPosition;
     private Vector2 _secondFingerStartPosition;
 
-    private float swipeDistance = 100f;
+    private int _secondFingerLastBeganTouchID;
+    private int _secondFingerLastEndedTouchID;
+
+    private int _firstFingerLastBeganTouchID;
+    private int _firstFingerLastEndedTouchID;
+
+    [Header("Player Inputs")]
+    [SerializeField] private float swipeDistance = 100f;
 
     protected event EventHandler OnLeftSwipe;
     protected event EventHandler OnUpSwipe;
@@ -38,6 +45,10 @@ public class PlayerInputHandler : MonoBehaviour
         TouchState finger = context.ReadValue<TouchState>();
         if (finger.phase == TouchPhase.Began)
         {
+            if (_secondFingerLastBeganTouchID == finger.touchId)
+                return;
+            _secondFingerLastBeganTouchID = finger.touchId;
+
             _secondFingerStartPosition = finger.position;
 
             if (finger.position.x > Screen.width * .5f)
@@ -52,6 +63,10 @@ public class PlayerInputHandler : MonoBehaviour
 
         if (finger.phase == TouchPhase.Ended)
         {
+            if (_secondFingerLastEndedTouchID == finger.touchId)
+                return;
+            _secondFingerLastEndedTouchID = finger.touchId;
+
             Vector2 fingerTrajectory = finger.position - _secondFingerStartPosition;
             float leftDot = Vector2.Dot(fingerTrajectory, -Vector2.right);
             float upDot = Vector2.Dot(fingerTrajectory, Vector2.up);
@@ -79,6 +94,10 @@ public class PlayerInputHandler : MonoBehaviour
         TouchState finger = context.ReadValue<TouchState>();
         if (finger.phase == TouchPhase.Began)
         {
+            if (_firstFingerLastBeganTouchID == finger.touchId)
+                return;
+            _firstFingerLastBeganTouchID = finger.touchId;
+
             _firstFingerStartPosition = finger.position;
 
             if (finger.position.x > Screen.width * .5f)
@@ -93,6 +112,10 @@ public class PlayerInputHandler : MonoBehaviour
 
         if (finger.phase == TouchPhase.Ended)
         {
+            if (_firstFingerLastEndedTouchID == finger.touchId)
+                return;
+            _firstFingerLastEndedTouchID = finger.touchId;
+
             Vector2 fingerTrajectory = finger.position - _firstFingerStartPosition;
             float leftDot = Vector2.Dot(fingerTrajectory, -Vector2.right);
             float upDot = Vector2.Dot(fingerTrajectory, Vector2.up);

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -163,7 +163,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000030517578, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &94054464
@@ -3813,7 +3813,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -10, y: -75.00006}
+  m_AnchoredPosition: {x: -10.000092, y: -75.00006}
   m_SizeDelta: {x: -20, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &649505665
@@ -4246,7 +4246,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 348b0df0f7e43334fac19d9387b3905e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _targetFrameRate: 60
   _playerController: {fileID: 1114863121}
+  _towerController: {fileID: 1070741238}
 --- !u!4 &744147971
 Transform:
   m_ObjectHideFlags: 0
@@ -5865,6 +5867,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfaa1eead0846ed4aa0475bc30ec81cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  swipeDistance: 100
   _maxTowerPartsOnScreen: 7
   _towerRotatingSpeed: 25
   _towerRightLeftDashDegreeDistance: 40
@@ -5895,11 +5898,11 @@ MonoBehaviour:
   _spawningHeight: 20
   _spawnDistanceFromTowerCenter: 5.5
   _minTimeBetweenFalls: 0.5
-  _maxTimeBetweenFalls: 2
+  _maxTimeBetweenFalls: 1
   _minFallingSpeed: 5
   _maxFallingSpeed: 10
   _destroyRocksAfter: 20
-  _everyNRockFallOnPlayer: 4
+  _everyNRockFallOnPlayer: 1
   _rocksPfs:
   - {fileID: 6833549704285630684, guid: 20c8e5e1b1103f041abc44c8f6776faf, type: 3}
   - {fileID: 8487758314787039282, guid: 0093c1c66a128a84eafb9725b7c8a223, type: 3}
@@ -7530,7 +7533,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!54 &1421363900
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -8746,7 +8749,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1640627240}
-  m_LocalRotation: {x: 3.4646325e-10, y: 0.99979806, z: -0.020096524, w: 0.000000017236479}
+  m_LocalRotation: {x: -3.464626e-10, y: 0.99979806, z: -0.020096503, w: -0.000000017236466}
   m_LocalPosition: {x: 0, y: 3, z: 17}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

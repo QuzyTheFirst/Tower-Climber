@@ -49,6 +49,7 @@ public class RocksController : MonoBehaviour
         while (true)
         {
             _currentFallenRockNumber++;
+            Debug.Log(_currentFallenRockNumber);
             if(_currentFallenRockNumber % _everyNRockFallOnPlayer == 0)
             {
                 SpawnRockOnPlayer();
