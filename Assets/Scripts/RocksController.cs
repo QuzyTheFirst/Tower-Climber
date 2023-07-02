@@ -49,7 +49,6 @@ public class RocksController : MonoBehaviour
         while (true)
         {
             _currentFallenRockNumber++;
-            Debug.Log(_currentFallenRockNumber);
             if(_currentFallenRockNumber % _everyNRockFallOnPlayer == 0)
             {
                 SpawnRockOnPlayer();
@@ -91,8 +90,8 @@ public class RocksController : MonoBehaviour
 
         float randomSpeed = Random.Range(_minFallingSpeed, _maxFallingSpeed);
 
-        Vector3 dirToPlayer = (GameManager.Instance.Player.transform.position - transform.position).normalized;
-        float degree = Mathf.Atan2(dirToPlayer.y, dirToPlayer.x) * Mathf.Rad2Deg;
+        int degree = 0;
+
         Quaternion rotation = Quaternion.Euler(0, degree, 0);
 
         Vector3 spawnPosition = rotation * Vector3.forward * _spawnDistanceFromTowerCenter + Vector3.up * _spawningHeight;
