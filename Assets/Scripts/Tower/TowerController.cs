@@ -110,6 +110,9 @@ public class TowerController : PlayerInputHandler
     private void TowerPart_OnPlayerHitTopPart(object sender, System.EventArgs e)
     {
         SpawnRandomPart();
+
+        TowerPart towerPart = sender as TowerPart;
+        towerPart.BoxCollider.enabled = false;
     }
     private void Window_OnPlayerExitWindow(object sender, System.EventArgs e)
     {

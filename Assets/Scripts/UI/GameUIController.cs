@@ -44,6 +44,20 @@ public class GameUIController : MonoBehaviour
         }
     }
 
+    // Menus
+
+    public void UpdateMainMenuUI(int maxScorePoints, int coins)
+    {
+        setMainMenuScoreText(maxScorePoints.ToString());
+        Instance.setMainMenuCoinsText(coins.ToString());
+    }
+
+    public void UpdateDeathMenuUI(int scorePoints, int coins)
+    {
+        setDeathMenuScoreText($"Score: {scorePoints}");
+        setDeathMenuCoinsText($"Coins: {coins}");
+    }
+
     // Scores
     public void setInGameScoreText(string text)
     {
@@ -85,20 +99,9 @@ public class GameUIController : MonoBehaviour
         _pauseMenu.SetActive(value);
     }
 
-    public void Continue()
-    {
-        GameManager.Instance.ToggleInGamePause(false);
-        _pauseMenu.SetActive(false);
-    }
-
     public void ToggleSettingsMenu(bool value)
     {
         _settingsMenu.SetActive(value);
-    }
-
-    public void GoToMainMenu()
-    {
-        _mainMenu.SetActive(true);
     }
 
     // Settings
@@ -128,16 +131,37 @@ public class GameUIController : MonoBehaviour
         _missionsMenu.SetActive(value);
     }
 
-    public void ActivateGame()
+    public void ToggleMainMenu(bool value)
     {
-        _mainMenu.SetActive(false);
-        GameManager.Instance.ToggleInGamePause(false);
-
-        _inGameInterface.SetActive(true);
+        _mainMenu.SetActive(value);
     }
 
-    public void RestartGame()
+    // In Game
+    public void ToggleInGameInterface(bool value)
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        _inGameInterface.SetActive(value);
+    }
+
+    // Buttons
+
+    public void Continue()
+    {
+        GameManager.Instance.ToggleInGamePause(false);
+        _pauseMenu.SetActive(false);
+    }
+
+    public void ActivateGame()
+    {
+        GameManager.Instance.ActivateGame();
+    }
+
+    public void GoToMainMenu()
+    {
+        _mainMenu.SetActive(true);
+    }
+
+    public void Restart()
+    {
+        GameManager.Instance.RestartGame();
     }
 }

@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviour, IDataPersistance
     [SerializeField] private int _maxScorePoints = 0;
     [SerializeField] private int _coins = 0;
 
+    private int _coinsThisMatch = 0;
+
     public PlayerController Player { get { return _playerController; } }
 
     private void OnValidate()
@@ -40,7 +42,13 @@ public class GameManager : MonoBehaviour, IDataPersistance
 
     private void OnCoinCollected(object sender, System.EventArgs e)
     {
+        Coin coin = sender as Coin;
+
         _coins++;
+        _coinsThisMatch++;
+        GameUIController.Instance.setInGameCoinsText(_coinsThisMatch.ToString());
+
+        Destroy(coin.gameObject);
     }
 
     private void Awake()
@@ -71,21 +79,38 @@ public class GameManager : MonoBehaviour, IDataPersistance
     public void KillPlayer()
     {
         ToggleInGamePause(true);
-        GameUIController.Instance.ToggleDeathMenu(true);
-        GameUIController.Instance.setDeathMenuScoreText($"Score: {_towerController.ScorePoints}");
+
         if(_towerController.ScorePoints > _maxScorePoints)
         {
             _maxScorePoints = _towerController.ScorePoints;
-            GameUIController.Instance.setMainMenuScoreText(_maxScorePoints.ToString());
         }
-        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+
+        GameUIController.Instance.ToggleDeathMenu(true);
+        GameUIController.Instance.UpdateDeathMenuUI(_towerController.ScorePoints, _coinsThisMatch);
+        GameUIController.Instance.UpdateMainMenuUI(_maxScorePoints, _coins);
+
+        _coinsThisMatch = 0;
+    }
+
+    public void ActivateGame()
+    {
+        ToggleInGamePause(false);
+        GameUIController.Instance.ToggleMainMenu(false);
+        GameUIController.Instance.ToggleInGameInterface(true);
+
+        GameUIController.Instance.setInGameCoinsText(_coinsThisMatch.ToString());
+    }
+
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void LoadData(GameData data)
     {
         _maxScorePoints = data.RecordScorePoints;
         _coins = data.Coins;
-        GameUIController.Instance.setMainMenuScoreText(_maxScorePoints.ToString());
+        GameUIController.Instance.UpdateMainMenuUI(_maxScorePoints, _coins);
     }
 
     public void SaveData(GameData data)
