@@ -25,6 +25,7 @@ public class ShopManager : MonoBehaviour, IDataPersistance
 
     public int CostumesCount { get { return _allCostumes.Length; } }
     public Costume SelectedCostume { get { return _currentChosenCostume; } }
+    public Shop Shop { get { return _shop; } }
 
     private void Start()
     {

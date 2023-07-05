@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,6 +23,9 @@ public class GameManager : MonoBehaviour, IDataPersistance
 
     [Header("Frames")]
     [SerializeField] private int _targetFrameRate = 60;
+
+    [Header("Camera")]
+    [SerializeField] private CinemachineVirtualCamera _camera;
 
     [Header("References")]
     [SerializeField] private PlayerController _playerController;
@@ -62,7 +66,7 @@ public class GameManager : MonoBehaviour, IDataPersistance
 
         _coins++;
         _coinsThisMatch++;
-        GameUIController.Instance.setInGameCoinsText(_coinsThisMatch.ToString());
+        GameUIController.Instance.InGameUI.setCoins(_coinsThisMatch);
 
         Destroy(coin.gameObject);
     }
@@ -79,6 +83,8 @@ public class GameManager : MonoBehaviour, IDataPersistance
         }
 
         ToggleInGamePause(true);
+
+        Application.targetFrameRate = _targetFrameRate;
     }
 
     public void ChangeMoneyValue(int value, MoneyValue moneyValue)
@@ -105,6 +111,18 @@ public class GameManager : MonoBehaviour, IDataPersistance
         Debug.Log(_currentGameLanguage);
     }
 
+    public void SwitchCameraFromMainMenuToShop()
+    {
+        _camera.transform.position = _shopManager.Shop.CameraPosition;
+        _camera.LookAt = _shopManager.Shop.CameraLookAtObject;
+    }
+
+    public void SwitchCameraFromShopToMainMenu()
+    {
+        _camera.transform.position = _towerController.CameraPosition;
+        _camera.LookAt = _towerController.CameraLookAtTf;
+    }
+
     public void KillPlayer()
     {
         ToggleInGamePause(true);
@@ -115,8 +133,8 @@ public class GameManager : MonoBehaviour, IDataPersistance
         }
 
         GameUIController.Instance.ToggleDeathMenu(true);
-        GameUIController.Instance.UpdateDeathMenuUI(_towerController.ScorePoints, _coinsThisMatch);
-        GameUIController.Instance.UpdateMainMenuUI(_maxScorePoints, _coins);
+        GameUIController.Instance.DeathMenuUI.UpdateUI(_towerController.ScorePoints, _coinsThisMatch);
+        GameUIController.Instance.MainMenuUI.UpdateUI(_maxScorePoints, _coins);
 
         _coinsThisMatch = 0;
     }
@@ -127,7 +145,7 @@ public class GameManager : MonoBehaviour, IDataPersistance
         GameUIController.Instance.ToggleMainMenu(false);
         GameUIController.Instance.ToggleInGameInterface(true);
 
-        GameUIController.Instance.setInGameCoinsText(_coinsThisMatch.ToString());
+        GameUIController.Instance.InGameUI.setCoins(_coinsThisMatch);
     }
 
     public void RestartGame()
@@ -139,7 +157,7 @@ public class GameManager : MonoBehaviour, IDataPersistance
     {
         _maxScorePoints = data.RecordScorePoints;
         _coins = data.Coins;
-        GameUIController.Instance.UpdateMainMenuUI(_maxScorePoints, _coins);
+        GameUIController.Instance.MainMenuUI.UpdateUI(_maxScorePoints, _coins);
     }
 
     public void SaveData(GameData data)
