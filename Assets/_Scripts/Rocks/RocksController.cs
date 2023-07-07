@@ -13,8 +13,12 @@ public class RocksController : MonoBehaviour
     [SerializeField] private float _spawnDistanceFromTowerCenter;
 
     [Header("Timings")]
-    [SerializeField] private float _minTimeBetweenFalls;
-    [SerializeField] private float _maxTimeBetweenFalls;
+    [SerializeField] private int _startingAmountOfRocksPerSecond = 1;
+    [SerializeField] private int _endingAmountOfRocksPerSecond = 4;
+
+    [SerializeField, Tooltip("Time To Get To Ending Pace")] private float _timeToGetToEndingPace = 90;
+    private float _rocksPerSecondChangerTimer = 0f;
+
     [SerializeField] private float _minFallingSpeed;
     [SerializeField] private float _maxFallingSpeed;
     [SerializeField] private float _destroyRocksAfter = 5f;
@@ -22,10 +26,17 @@ public class RocksController : MonoBehaviour
     [SerializeField] private int _everyNRockFallOnPlayer = 4;
     private int _currentFallenRockNumber;
 
+    private int _currentAmountOfRocksPerSecond;
+    private float _timeBetweenRocks;
+
     [Header("Prefabs")]
     [SerializeField] private Transform[] _rocksPfs;
 
     private List<Transform> _spawnedRocks;
+
+    private int[] _rotationsToFall = {0, 45, 90, 135, 180, 225, 270, 315};
+    private List<int> _randomizedRotationsToFall;
+    private int _currentFallRotation;
 
     private void OnEnable()
     {
@@ -40,6 +51,12 @@ public class RocksController : MonoBehaviour
     private void Awake()
     {
         _spawnedRocks = new List<Transform>();
+        _randomizedRotationsToFall = new List<int>();
+
+        _currentAmountOfRocksPerSecond = _startingAmountOfRocksPerSecond;
+        _timeBetweenRocks = 1 / _currentAmountOfRocksPerSecond;
+
+        RandomizeRotationsToFall();
 
         StartCoroutine(SpawnRocks());
     }
@@ -48,18 +65,14 @@ public class RocksController : MonoBehaviour
     {
         while (true)
         {
-            _currentFallenRockNumber++;
-            if(_currentFallenRockNumber % _everyNRockFallOnPlayer == 0)
-            {
-                SpawnRockOnPlayer();
-            }
-            else
-            {
-                SpawnRockRandomly();
-            }
+            _currentAmountOfRocksPerSecond = (int)Mathf.Lerp(_startingAmountOfRocksPerSecond, _endingAmountOfRocksPerSecond, _rocksPerSecondChangerTimer / _timeToGetToEndingPace);
+            _timeBetweenRocks = 1 / (float)_currentAmountOfRocksPerSecond;
 
-            float randomTime = Random.Range(_minTimeBetweenFalls, _maxTimeBetweenFalls);
-            yield return new WaitForSeconds(randomTime);
+            SpawnRockRandomly();
+
+            yield return new WaitForSeconds(_timeBetweenRocks);
+
+            _rocksPerSecondChangerTimer += _timeBetweenRocks;
         }
     }
 
@@ -69,14 +82,13 @@ public class RocksController : MonoBehaviour
 
         float randomSpeed = Random.Range(_minFallingSpeed, _maxFallingSpeed);
 
-        int rotationValue = 45 * Random.Range(0, 8);
-        Quaternion randomRotation = Quaternion.Euler(0, rotationValue, 0f);
+        Quaternion randomRotation = GetNextFallingRotation();
 
         Vector3 spawnPosition = randomRotation * Vector3.forward * _spawnDistanceFromTowerCenter + Vector3.up * _spawningHeight;
 
         Transform rock = Instantiate(randomRock);
         rock.position = spawnPosition;
-        rock.localRotation = Quaternion.Euler(0, rotationValue, 0);
+        rock.localRotation = Quaternion.Euler(0, randomRotation.eulerAngles.y, 0);
         rock.parent = _rocksParent;
 
         rock.GetComponent<Rigidbody>().velocity = Vector3.down * randomSpeed;
@@ -86,26 +98,31 @@ public class RocksController : MonoBehaviour
         _spawnedRocks.Add(rock);
     }
 
-    private void SpawnRockOnPlayer()
+    private void RandomizeRotationsToFall()
     {
-        Transform randomRock = _rocksPfs[Random.Range(0, _rocksPfs.Length)];
+        _currentFallRotation = 0;
+        _randomizedRotationsToFall.Clear();
 
-        float randomSpeed = Random.Range(_minFallingSpeed, _maxFallingSpeed);
+        for (int i = 0; i < _rotationsToFall.Length; i++)
+        {
+            int number = Random.Range(0, _rotationsToFall.Length);
+            while (_randomizedRotationsToFall.Contains(_rotationsToFall[number]))
+            {
+                number = Random.Range(0, _rotationsToFall.Length);
+            }
+            _randomizedRotationsToFall.Add(_rotationsToFall[number]);
+        }
+    }
+    private Quaternion GetNextFallingRotation()
+    {
+        Quaternion rotation = Quaternion.Euler(0, _randomizedRotationsToFall[_currentFallRotation], 0);
 
-        int degree = 0;
+        _currentFallRotation++;
 
-        Quaternion rotation = Quaternion.Euler(0, degree, 0);
+        if (_currentFallRotation == _rotationsToFall.Length)
+            RandomizeRotationsToFall();
 
-        Vector3 spawnPosition = rotation * Vector3.forward * _spawnDistanceFromTowerCenter + Vector3.up * _spawningHeight;
-
-        Transform rock = Instantiate(randomRock, spawnPosition, Quaternion.Euler(0, degree, 0));
-        rock.parent = _rocksParent;
-
-        rock.GetComponent<Rigidbody>().velocity = Vector3.down * randomSpeed;
-
-        Destroy(rock.gameObject, _destroyRocksAfter);
-
-        _spawnedRocks.Add(rock);
+        return rotation;
     }
 
     private void Rock_OnRockHitPlayer(object sender, System.EventArgs e)

@@ -31,8 +31,6 @@ public class ShopManager : MonoBehaviour, IDataPersistance
     {
         if (!GetCostume(0).IsBought)
             GetCostume(0).Buy();
-
-        ChangeSelectedCostume(0);
     }
 
     public void ChangeSelectedCostume(CostumeType costumeType)

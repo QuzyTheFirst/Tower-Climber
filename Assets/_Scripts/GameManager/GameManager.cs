@@ -45,11 +45,6 @@ public class GameManager : MonoBehaviour, IDataPersistance
 
     public PlayerController Player { get { return _playerController; } }
 
-    private void OnValidate()
-    {
-        Application.targetFrameRate = _targetFrameRate;
-    }
-
     private void OnEnable()
     {
         Coin.OnPlayerHitCoin += OnCoinCollected;
@@ -64,7 +59,6 @@ public class GameManager : MonoBehaviour, IDataPersistance
     {
         Coin coin = sender as Coin;
 
-        _coins++;
         _coinsThisMatch++;
         GameUIController.Instance.InGameUI.setCoins(_coinsThisMatch);
 
@@ -86,7 +80,10 @@ public class GameManager : MonoBehaviour, IDataPersistance
 
         Application.targetFrameRate = _targetFrameRate;
     }
-
+    private void Start()
+    {
+        Application.targetFrameRate = _targetFrameRate;
+    }
     public void ChangeMoneyValue(int value, MoneyValue moneyValue)
     {
         switch (moneyValue)
@@ -98,6 +95,9 @@ public class GameManager : MonoBehaviour, IDataPersistance
                 _coins -= value;
                 break;
         }
+
+        GameUIController.Instance.MainMenuUI.setCoins(_coins);
+        GameUIController.Instance.CostumesShopUI.UpdateUI(_coins);
     }
 
     public void ToggleInGamePause(bool value)
@@ -111,16 +111,20 @@ public class GameManager : MonoBehaviour, IDataPersistance
         Debug.Log(_currentGameLanguage);
     }
 
-    public void SwitchCameraFromMainMenuToShop()
+    public void SwitchCameraToCostumeShopMenu()
     {
         _camera.transform.position = _shopManager.Shop.CameraPosition;
         _camera.LookAt = _shopManager.Shop.CameraLookAtObject;
+
+        GameUIController.Instance.CostumesShopUI.UpdateUI(_coins);
     }
 
-    public void SwitchCameraFromShopToMainMenu()
+    public void SwitchCameraToMainMenu()
     {
         _camera.transform.position = _towerController.CameraPosition;
         _camera.LookAt = _towerController.CameraLookAtTf;
+
+        GameUIController.Instance.MainMenuUI.setCoins(_coins);
     }
 
     public void KillPlayer()
@@ -130,11 +134,13 @@ public class GameManager : MonoBehaviour, IDataPersistance
         if(_towerController.ScorePoints > _maxScorePoints)
         {
             _maxScorePoints = _towerController.ScorePoints;
+            GameUIController.Instance.MainMenuUI.setScore(_maxScorePoints);
         }
 
         GameUIController.Instance.ToggleDeathMenu(true);
         GameUIController.Instance.DeathMenuUI.UpdateUI(_towerController.ScorePoints, _coinsThisMatch);
-        GameUIController.Instance.MainMenuUI.UpdateUI(_maxScorePoints, _coins);
+
+        ChangeMoneyValue(_coinsThisMatch, MoneyValue.Up);
 
         _coinsThisMatch = 0;
     }

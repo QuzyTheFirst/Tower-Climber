@@ -7,15 +7,25 @@ public class CostumesShopUI : MonoBehaviour
 {
     private int _chosenCostume = 0;
 
+    [Header("Coins")]
+    [SerializeField] private TextMeshProUGUI _coinsText;
+
+    [Header("Buttons")]
     [SerializeField] private TextMeshProUGUI _buySelectButtonText;
 
     [SerializeField] private Shop _shop;
 
     private void Start()
     {
-        Costume costume = GameManager.Instance.ShopManager.GetCostume(0);
+        Costume costume = GameManager.Instance.ShopManager.SelectedCostume;
+        _chosenCostume = (int)costume.CostumeType;
         _shop.CostumeSwapper.ChangeCostume(costume.transform);
         UpdateBuySelectButton();
+    }
+
+    public void UpdateUI(int coins)
+    {
+        _coinsText.text = coins.ToString();
     }
 
     public void Left()
@@ -73,6 +83,6 @@ public class CostumesShopUI : MonoBehaviour
         GameUIController.Instance.ToggleMainMenu(true);
         GameUIController.Instance.ToggleCostumesShop(false);
 
-        GameManager.Instance.SwitchCameraFromShopToMainMenu();
+        GameManager.Instance.SwitchCameraToMainMenu();
     }
 }

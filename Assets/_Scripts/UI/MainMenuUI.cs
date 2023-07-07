@@ -38,6 +38,6 @@ public class MainMenuUI : MonoBehaviour
         GameUIController.Instance.ToggleMainMenu(false);
         GameUIController.Instance.ToggleCostumesShop(true);
 
-        GameManager.Instance.SwitchCameraFromMainMenuToShop();
+        GameManager.Instance.SwitchCameraToCostumeShopMenu();
     }
 }

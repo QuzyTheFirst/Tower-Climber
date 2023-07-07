@@ -4914,7 +4914,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 348b0df0f7e43334fac19d9387b3905e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _targetFrameRate: 0
+  _targetFrameRate: 120
   _camera: {fileID: 1640627242}
   _playerController: {fileID: 1114863121}
   _towerController: {fileID: 1070741238}
@@ -6823,8 +6823,9 @@ MonoBehaviour:
   _rocksParent: {fileID: 2099558011}
   _spawningHeight: 20
   _spawnDistanceFromTowerCenter: 5.5
-  _minTimeBetweenFalls: 0.5
-  _maxTimeBetweenFalls: 1.5
+  _startingAmountOfRocksPerSecond: 1
+  _endingAmountOfRocksPerSecond: 4
+  _timeToGetToEndingPace: 300
   _minFallingSpeed: 5
   _maxFallingSpeed: 10
   _destroyRocksAfter: 20
@@ -8879,8 +8880,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f41eb7301050a2648a51330b2d6104b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _abyssSpeed: 4
-  _maxAbyssDistanceFromPlayer: 16
+  _startingAbyssSpeed: 4
+  _endingAbyssSpeed: 6
+  _startingAbyssDistanceFromPlayer: 16
+  _endingAbyssDistanceFromPlayer: 9
+  _timeToMusterMaxSpeed: 150
+  _timeToCutDistanceToPlayer: 300
 --- !u!4 &1421363905
 Transform:
   m_ObjectHideFlags: 0
@@ -11243,6 +11248,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d41231c87d29fc43bf5a57eafeb70eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _coinsText: {fileID: 1871544214}
   _buySelectButtonText: {fileID: 704315745}
   _shop: {fileID: 1406534572}
 --- !u!1 &1731595258
