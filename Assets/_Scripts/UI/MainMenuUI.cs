@@ -40,4 +40,12 @@ public class MainMenuUI : MonoBehaviour
 
         GameManager.Instance.SwitchCameraToCostumeShopMenu();
     }
+
+    public void OpenLeaderboard()
+    {
+        GameUIController.Instance.ToggleMainMenu(false);
+        GameUIController.Instance.ToggleLeaderboard(true);
+
+        GameUIController.Instance.LeaderboardUI.GetLeaderboard();
+    }
 }

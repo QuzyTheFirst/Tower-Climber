@@ -17,6 +17,7 @@ public class GameUIController : MonoBehaviour
     [SerializeField] private MissionsUI _missionsUI;
     [SerializeField] private DeathMenuUI _deathMenuUI;
     [SerializeField] private CostumesShopUI _costumesShopUI;
+    [SerializeField] private LeaderboardUI _leaderboardUI;
 
     public PauseUI PauseUI { get { return _pauseUI; } }
     public InGameUI InGameUI { get { return _inGameUI; } }
@@ -25,6 +26,7 @@ public class GameUIController : MonoBehaviour
     public MissionsUI MissionsUI { get { return _missionsUI; } }
     public DeathMenuUI DeathMenuUI { get { return _deathMenuUI; } }
     public CostumesShopUI CostumesShopUI { get { return _costumesShopUI; } }
+    public LeaderboardUI LeaderboardUI { get { return _leaderboardUI; } }
 
 
     private void Awake()
@@ -56,7 +58,7 @@ public class GameUIController : MonoBehaviour
 
     public void ToggleLeaderboard(bool value)
     {
-        Debug.Log($"Leaderboad is {value}");
+        _leaderboardUI.gameObject.SetActive(value);
     }
 
     public void ToggleMissionsMenu(bool value)
