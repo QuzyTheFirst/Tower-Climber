@@ -9,9 +9,22 @@ public class LeaderboardUI : MonoBehaviour
     [SerializeField] private int _amountLeaderboardSeats = 20;
     [SerializeField] private Transform _playerSeatPf;
 
-    private List<Transform> _playerSeats;
+    private List<PlayerLeaderboardSeat> _playerSeats;
 
     private string publicLeaderboardKey = "d81d604434c577ada92028f4924b8705ff02d217f7425832e1e9553f0e9a8314";
+
+    private void Awake()
+    {
+        GenerateLeaderboard();
+    }
+
+    private void GenerateLeaderboard()
+    {
+        for(int i = 0; i< _amountLeaderboardSeats + 1; i++)
+        {
+
+        }
+    }
 
     public void GetLeaderboard()
     {
