@@ -2,13 +2,15 @@ using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Localization.Settings;
+using UnityEngine.Localization;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour, IDataPersistance
 {
     public enum GameLanguage
     {
-        English,
+        English = 0,
         Russian,
     }
     private GameLanguage _currentGameLanguage = GameLanguage.English;
@@ -40,6 +42,7 @@ public class GameManager : MonoBehaviour, IDataPersistance
     private int _coinsThisMatch = 0;
 
     public int Coins { get { return _coins; } }
+    public int Score { get { return _towerController.ScorePoints; } }
 
     public ShopManager ShopManager { get { return _shopManager; } }
 
@@ -98,6 +101,7 @@ public class GameManager : MonoBehaviour, IDataPersistance
 
         GameUIController.Instance.MainMenuUI.setCoins(_coins);
         GameUIController.Instance.CostumesShopUI.UpdateUI(_coins);
+        DataPersistanceManager.Instance.SaveGame();
     }
 
     public void ToggleInGamePause(bool value)
@@ -108,7 +112,13 @@ public class GameManager : MonoBehaviour, IDataPersistance
     public void ChangeLanguage(int language)
     {
         _currentGameLanguage = (GameLanguage)language;
-        Debug.Log(_currentGameLanguage);
+        StartCoroutine(SetLocale(language));
+    }
+
+    IEnumerator SetLocale(int localeID)
+    {
+        yield return LocalizationSettings.InitializationOperation;
+        LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[localeID];
     }
 
     public void SwitchCameraToCostumeShopMenu()
@@ -164,11 +174,15 @@ public class GameManager : MonoBehaviour, IDataPersistance
         _maxScorePoints = data.RecordScorePoints;
         _coins = data.Coins;
         GameUIController.Instance.MainMenuUI.UpdateUI(_maxScorePoints, _coins);
+
+        ChangeLanguage((int)data.SelectedLanguage);
     }
 
     public void SaveData(GameData data)
     {
         data.RecordScorePoints = _maxScorePoints;
         data.Coins = _coins;
+
+        data.SelectedLanguage = _currentGameLanguage;
     }
 }

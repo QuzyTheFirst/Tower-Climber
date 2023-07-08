@@ -54,17 +54,19 @@ public class ShopManager : MonoBehaviour, IDataPersistance
         {
             if (!costume.IsBought)
             {
-                if (_gameManager.Coins > costume.Cost)
+                if (_gameManager.Coins >= costume.Cost)
                 {
                     costume.Buy();
                     _gameManager.ChangeMoneyValue(costume.Cost, GameManager.MoneyValue.Down);
                     ChangeSelectedCostume(costume.CostumeType);
+                    DataPersistanceManager.Instance.SaveGame();
                     return true;
                 }
             }
             else
             {
                 ChangeSelectedCostume(costume.CostumeType);
+                DataPersistanceManager.Instance.SaveGame();
                 return true;
             }
         }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.Localization;
 
 public class CostumesShopUI : MonoBehaviour
 {
@@ -13,7 +14,22 @@ public class CostumesShopUI : MonoBehaviour
     [Header("Buttons")]
     [SerializeField] private TextMeshProUGUI _buySelectButtonText;
 
+    [Header("Shop")]
     [SerializeField] private Shop _shop;
+
+    [Header("Localization")]
+    [SerializeField] private LocalizedString _localStringPrice;
+
+    private void OnEnable()
+    {
+        _localStringPrice.Arguments = new object[] { GameManager.Instance.ShopManager.SelectedCostume.Cost };
+        _localStringPrice.StringChanged += ButButtonTextChanged;
+    }
+
+    private void OnDisable()
+    {
+        _localStringPrice.StringChanged -= ButButtonTextChanged;
+    }
 
     private void Start()
     {
@@ -66,16 +82,25 @@ public class CostumesShopUI : MonoBehaviour
         Costume costume = GameManager.Instance.ShopManager.GetCostume((ShopManager.CostumeType)_chosenCostume);
         if (costume.IsBought && costume == GameManager.Instance.ShopManager.SelectedCostume)
         {
-            _buySelectButtonText.text = "Selected";
+            _localStringPrice.TableEntryReference = "ID_Costumes_Selected";
+            //_buySelectButtonText.text = "Selected";
         }
         else if (costume.IsBought)
         {
-            _buySelectButtonText.text = "Select";
+            _localStringPrice.TableEntryReference = "ID_Costumes_Select";
+            //_buySelectButtonText.text = "Select";
         }
         else
         {
-            _buySelectButtonText.text = $"Buy: {costume.Cost}";
+            _localStringPrice.TableEntryReference = "ID_Costumes_Buy";
+            _localStringPrice.Arguments[0] = costume.Cost;
         }
+        _localStringPrice.RefreshString();
+    }
+
+    private void ButButtonTextChanged(string value)
+    {
+        _buySelectButtonText.text = value;
     }
 
     public void ToMainMenu()
