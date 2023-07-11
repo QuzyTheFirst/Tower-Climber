@@ -6492,6 +6492,7 @@ GameObject:
   m_Component:
   - component: {fileID: 918646970}
   - component: {fileID: 918646971}
+  - component: {fileID: 918646972}
   m_Layer: 0
   m_Name: GPGSManager
   m_TagString: Untagged
@@ -6524,6 +6525,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5345f6921dfd89e4ab972e86bd0eba9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &918646972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 918646969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 985b3c60f1e342744aa9a3c4fa528793, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &963194225
@@ -10318,7 +10331,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -370.9999, y: 629.8594}
+  m_AnchoredPosition: {x: -370.9999, y: 586.6669}
   m_SizeDelta: {x: 742, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1436883923
@@ -11518,7 +11531,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1640627240}
-  m_LocalRotation: {x: 3.7234277e-10, y: 0.999764, z: -0.021723729, w: 0.000000017135866}
+  m_LocalRotation: {x: -3.7888176e-10, y: 0.999764, z: -0.02172375, w: -0.000000017436788}
   m_LocalPosition: {x: 0, y: 3, z: 17}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -14105,7 +14118,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1871058232
 RectTransform:
   m_ObjectHideFlags: 0
