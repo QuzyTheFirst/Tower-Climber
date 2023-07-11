@@ -36,6 +36,9 @@ public class GameManager : MonoBehaviour, IDataPersistance
     [Header("Shop Manager")]
     [SerializeField] private ShopManager _shopManager;
 
+    [Header("GPGS Manager")]
+    [SerializeField] private GPGSManager _gpgsManager;
+
     private int _maxScorePoints = 0;
     private int _coins = 0;
 
@@ -45,6 +48,7 @@ public class GameManager : MonoBehaviour, IDataPersistance
     public int Score { get { return _towerController.ScorePoints; } }
 
     public ShopManager ShopManager { get { return _shopManager; } }
+    public GPGSManager GPGSManager { get { return _gpgsManager; } }
 
     public PlayerController Player { get { return _playerController; } }
 
@@ -145,6 +149,7 @@ public class GameManager : MonoBehaviour, IDataPersistance
         {
             _maxScorePoints = _towerController.ScorePoints;
             GameUIController.Instance.MainMenuUI.setScore(_maxScorePoints);
+            _gpgsManager.Leaderboard.PostLeaderboardEntry(_maxScorePoints);
         }
 
         GameUIController.Instance.ToggleDeathMenu(true);

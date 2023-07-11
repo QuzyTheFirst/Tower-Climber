@@ -7,10 +7,15 @@ using GooglePlayGames.BasicApi;
 public class GPGSManager : MonoBehaviour
 {
     private Achievements _achievements;
+    private Leaderboard _leaderboard;
+
+    public Achievements Achievement { get { return _achievements; } }
+    public Leaderboard Leaderboard { get { return _leaderboard; } }
 
     private void Start()
     {
         _achievements = GetComponent<Achievements>();
+        _leaderboard = GetComponent<Leaderboard>();
 
         PlayGamesPlatform.Activate();
         PlayGamesPlatform.Instance.Authenticate(AunthenticateCallback);
@@ -24,10 +29,10 @@ public class GPGSManager : MonoBehaviour
                 Debug.Log("<color=cyan>Successfully entered Google Play Services</color>");
                 break;
             case SignInStatus.Canceled:
-                Debug.Log("<color=cyan>Google Play Services canceled connection</color>");
+                Debug.Log("<color=red>Google Play Services canceled connection</color>");
                 break;
             case SignInStatus.InternalError:
-                Debug.Log("<color=cyan>Internal error while trying to sign in to Google Play Services</color>");
+                Debug.Log("<color=red>Internal error while trying to sign in to Google Play Services</color>");
                 break;
         }
     }

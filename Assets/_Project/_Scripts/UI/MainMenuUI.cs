@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using GooglePlayGames;
 using TMPro;
 
 public class MainMenuUI : MonoBehaviour
@@ -41,11 +40,12 @@ public class MainMenuUI : MonoBehaviour
         GameManager.Instance.SwitchCameraToCostumeShopMenu();
     }
 
-    public void OpenLeaderboard()
+    public void ShowLeaderboard()
     {
-        GameUIController.Instance.ToggleMainMenu(false);
-        GameUIController.Instance.ToggleLeaderboard(true);
-
-        //GameUIController.Instance.LeaderboardUI.GetLeaderboard();
+        GameManager.Instance.GPGSManager.Leaderboard.ShowLeaderboard();
+    }
+    public void ShowAchievements()
+    {
+        GameManager.Instance.GPGSManager.Achievement.ShowAllAchievments();
     }
 }
