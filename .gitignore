@@ -9,7 +9,11 @@
 /[Bb]uilds/
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
-/[Aa]ssets/DownloadedPackages
+/[Aa]ssets/AddressableAssetsData
+/[Aa]ssets/GooglePlayGames
+/[Aa]ssets/Plugins
+/[Aa]ssets/TextMesh Pro
+/[Aa]ssets/ExternalDependencyManager
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
