@@ -46,6 +46,6 @@ public class MainMenuUI : MonoBehaviour
         GameUIController.Instance.ToggleMainMenu(false);
         GameUIController.Instance.ToggleLeaderboard(true);
 
-        GameUIController.Instance.LeaderboardUI.GetLeaderboard();
+        //GameUIController.Instance.LeaderboardUI.GetLeaderboard();
     }
 }

@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Dan.Main;
+//using Dan.Main;
 
 public class LeaderboardUI : MonoBehaviour
 {
-    [Header("Leaderboard")]
+    /*[Header("Leaderboard")]
     [SerializeField] private Transform _playerSeatPf;
     [SerializeField] private Transform _playerSeatsParent;
 
@@ -48,7 +48,7 @@ public class LeaderboardUI : MonoBehaviour
         {
             GetLeaderboard();
         }));
-    }
+    }*/
 
     public void OpenMainMenu()
     {
