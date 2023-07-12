@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class RocksController : MonoBehaviour
+public class RocksController : MonoBehaviour, IRestartable
 {
     [Header("Rocks Controller")]
     [SerializeField] private Transform _rocksParent;
@@ -22,9 +22,6 @@ public class RocksController : MonoBehaviour
     [SerializeField] private float _minFallingSpeed;
     [SerializeField] private float _maxFallingSpeed;
     [SerializeField] private float _destroyRocksAfter = 5f;
-
-    [SerializeField] private int _everyNRockFallOnPlayer = 4;
-    private int _currentFallenRockNumber;
 
     private int _currentAmountOfRocksPerSecond;
     private float _timeBetweenRocks;
@@ -123,6 +120,17 @@ public class RocksController : MonoBehaviour
             RandomizeRotationsToFall();
 
         return rotation;
+    }
+
+    public void Restart()
+    {
+        foreach(Transform rock in _spawnedRocks)
+        {
+            if(rock != null)
+                Destroy(rock.gameObject);
+        }
+
+        _spawnedRocks.Clear();
     }
 
     private void Rock_OnRockHitPlayer(object sender, System.EventArgs e)

@@ -14,8 +14,8 @@ public class GPGSManager : MonoBehaviour
 
     private void Start()
     {
-        _achievements = GetComponent<Achievements>();
-        _leaderboard = GetComponent<Leaderboard>();
+        _achievements = new Achievements();
+        _leaderboard = new Leaderboard();
 
         PlayGamesPlatform.Activate();
         PlayGamesPlatform.Instance.Authenticate(AunthenticateCallback);
@@ -26,6 +26,8 @@ public class GPGSManager : MonoBehaviour
         switch (status) 
         {
             case SignInStatus.Success:
+                DataPersistanceManager.Instance.LoadGame();
+
                 Debug.Log("<color=cyan>Successfully entered Google Play Services</color>");
                 break;
             case SignInStatus.Canceled:

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class TowerController : PlayerInputHandler
+public class TowerController : PlayerInputHandler, IRestartable
 {
     [SerializeField] private float _maxTowerPartsOnScreen = 7;
     [SerializeField] private float _towerDashDegree = 45;
@@ -28,12 +28,10 @@ public class TowerController : PlayerInputHandler
     private Vector3 _nextPartPosition;
 
     //Scores
-    private Vector3 _lastTowerPos;
     private float _scorePoints = 0;
 
     private Vector3 _towerPreferedPosition;
     private Quaternion _towerPreferedRotation;
-    private Quaternion _towerNextFullRotation;
 
     private Coroutine _dashCoroutine;
 
@@ -88,7 +86,6 @@ public class TowerController : PlayerInputHandler
 
         _towerPreferedPosition = _towerPartsParent.position;
         _towerPreferedRotation = _towerPartsParent.rotation;
-        _towerNextFullRotation = _towerPreferedRotation;
     }
 
     private void TowerPart_OnPlayerHitTopPart(object sender, System.EventArgs e)
@@ -114,7 +111,7 @@ public class TowerController : PlayerInputHandler
             return;
         window.PlayerHasEntered = true;
 
-        StopDashCoroutine();
+        StopDashCoroutines();
 
         PlayerController player = GameManager.Instance.Player;
 
@@ -141,6 +138,28 @@ public class TowerController : PlayerInputHandler
         {
             SpawnRandomPart();
         }
+    }
+
+    public void Restart()
+    {
+        foreach(Transform part in _spawnedParts)
+        {
+            Destroy(part.gameObject);
+        }
+
+        _spawnedParts.Clear();
+
+        _towerPartsParent.localPosition = Vector3.zero;
+        _towerPartsParent.rotation = Quaternion.Euler(0, 0, 0);
+
+        _towerPreferedPosition = _towerPartsParent.position;
+        _towerPreferedRotation = _towerPartsParent.rotation;
+
+        _hasPlayerEnteredWindow = false;
+
+        StopDashCoroutines();
+
+        SetUpTower();
     }
 
     public void SpawnRandomPart()
@@ -171,8 +190,6 @@ public class TowerController : PlayerInputHandler
 
     private void Update()
     {
-        _lastTowerPos = _towerPreferedPosition;
-
         TowerFall();
 
         _scorePoints = -_towerPreferedPosition.y;
@@ -214,8 +231,6 @@ public class TowerController : PlayerInputHandler
 
         Quaternion endDashRotation = Quaternion.Euler(0, _towerPreferedRotation.eulerAngles.y - _towerDashDegree, 0);
 
-        _towerNextFullRotation = endDashRotation;
-
         float dashTimer = 0;
         while (dashTimer >= 1)
         {
@@ -242,8 +257,6 @@ public class TowerController : PlayerInputHandler
             _hasPlayerEnteredWindow = false;
 
         Quaternion endDashRotation = Quaternion.Euler(0, _towerPreferedRotation.eulerAngles.y + _towerDashDegree, 0);
-
-        _towerNextFullRotation = endDashRotation;
 
         float dashTimer = 0;
         while (dashTimer >= 1)
@@ -287,7 +300,7 @@ public class TowerController : PlayerInputHandler
         //Debug.Log($"Up Dash Done: {Time.time}");
     }
 
-    private void StopDashCoroutine()
+    private void StopDashCoroutines()
     {
         if (_isInDash)
         {

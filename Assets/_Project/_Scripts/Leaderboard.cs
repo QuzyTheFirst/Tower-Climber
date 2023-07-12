@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using GooglePlayGames;
 
-public class Leaderboard : MonoBehaviour
+public class Leaderboard
 {
     public void PostLeaderboardEntry(int score)
     {

@@ -17,7 +17,8 @@ public class DataPersistanceManager : MonoBehaviour
 
     private List<IDataPersistance> _dataPersistanceObjects;
 
-    private FileDataHandler _dataHandler;
+    //private FileDataHandler _dataHandler;
+    private GoogleServicesDataHandler _dataHandler;
 
     public bool HasGameData { 
         get
@@ -50,18 +51,18 @@ public class DataPersistanceManager : MonoBehaviour
 
         DontDestroyOnLoad(gameObject);
 
-        _dataHandler = new FileDataHandler(Application.persistentDataPath, _fileName, _useEncryption);
+        _dataHandler = new GoogleServicesDataHandler(_fileName);
     }
 
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         _dataPersistanceObjects = FindAllDataPersistenceObjects();
-        LoadGame();
+        //LoadGame();
     }
 
     public void OnSceneUnloaded(Scene scene)
     {
-        SaveGame();
+        //SaveGame();
     }
 
     public void NewGame()
@@ -69,9 +70,9 @@ public class DataPersistanceManager : MonoBehaviour
         _gameData = new GameData();
     }
 
-    public void LoadGame()
+    public async void LoadGame()
     {
-        _gameData = _dataHandler.Load();
+        _gameData = await _dataHandler.Load();
 
         if(_gameData == null && initializeDataIfNull)
         {

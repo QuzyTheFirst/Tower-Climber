@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SocialPlatforms;
 
-public class Achievements : MonoBehaviour
+public class Achievements
 {
     public void ShowAllAchievments()
     {

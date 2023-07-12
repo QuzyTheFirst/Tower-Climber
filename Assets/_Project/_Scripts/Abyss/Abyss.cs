@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Abyss : MonoBehaviour
+public class Abyss : MonoBehaviour, IRestartable
 {
     [SerializeField] private float _startingAbyssSpeed = 4;
     [SerializeField] private float _endingAbyssSpeed = 6;
@@ -42,6 +42,17 @@ public class Abyss : MonoBehaviour
 
         _currentAbyssSpeed = Mathf.Lerp(_startingAbyssSpeed, _endingAbyssSpeed, _maxSpeedChangerTimer / _timeToMusterMaxSpeed);
         _currentAbyssDistanceFromPlayer = Mathf.Lerp(_startingAbyssDistanceFromPlayer, _endingAbyssDistanceFromPlayer, _distanceToPlayerChangerTimer / _timeToCutDistanceToPlayer);
+    }
+
+    public void Restart()
+    {
+        _currentAbyssSpeed = _startingAbyssSpeed;
+        _currentAbyssDistanceFromPlayer = _startingAbyssDistanceFromPlayer;
+
+        transform.position = Vector3.down * _currentAbyssDistanceFromPlayer;
+
+        _maxSpeedChangerTimer = 0f;
+        _distanceToPlayerChangerTimer = 0f;
     }
 
     private void OnTriggerEnter(Collider other)

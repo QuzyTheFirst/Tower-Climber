@@ -24,14 +24,6 @@ public class PlayerInputHandler : MonoBehaviour
     protected event EventHandler OnUpSwipe;
     protected event EventHandler OnRightSwipe;
 
-    /*protected event EventHandler OnFirstFingerOnRightPart;
-    protected event EventHandler OnFirstFingerOnLeftPart;
-    protected event EventHandler OnFirstFingerCanceled;
-
-    protected event EventHandler OnSecondFingerOnRightPart;
-    protected event EventHandler OnSecondFingerOnLeftPart;
-    protected event EventHandler OnSecondFingerCanceled;*/
-
     protected virtual void Awake()
     {
         _playerControls = new PlayerInputs();
@@ -50,15 +42,6 @@ public class PlayerInputHandler : MonoBehaviour
             _secondFingerLastBeganTouchID = finger.touchId;
 
             _secondFingerStartPosition = finger.position;
-
-            /*if (finger.position.x > Screen.width * .5f)
-            {
-                OnSecondFingerOnRightPart?.Invoke(this, EventArgs.Empty);
-            }
-            else
-            {
-                OnSecondFingerOnLeftPart?.Invoke(this, EventArgs.Empty);
-            }*/
         }
 
         if (finger.phase == TouchPhase.Ended)
@@ -84,8 +67,6 @@ public class PlayerInputHandler : MonoBehaviour
             {
                 OnUpSwipe?.Invoke(this, EventArgs.Empty);
             }
-
-            //OnSecondFingerCanceled?.Invoke(this, EventArgs.Empty);
         }
     }
 
@@ -99,15 +80,6 @@ public class PlayerInputHandler : MonoBehaviour
             _firstFingerLastBeganTouchID = finger.touchId;
 
             _firstFingerStartPosition = finger.position;
-
-            /*if (finger.position.x > Screen.width * .5f)
-            {
-                OnFirstFingerOnRightPart?.Invoke(this, EventArgs.Empty);
-            }
-            else
-            {
-                OnFirstFingerOnLeftPart?.Invoke(this, EventArgs.Empty);
-            }*/
         }
 
         if (finger.phase == TouchPhase.Ended)
@@ -133,8 +105,6 @@ public class PlayerInputHandler : MonoBehaviour
             {
                 OnUpSwipe?.Invoke(this, EventArgs.Empty);
             }
-
-            //OnFirstFingerCanceled?.Invoke(this, EventArgs.Empty);
         }
     }
 

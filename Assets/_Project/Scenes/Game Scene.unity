@@ -2792,7 +2792,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1129349576}
         m_TargetAssemblyTypeName: DeathMenuUI, Assembly-CSharp
-        m_MethodName: Restart
+        m_MethodName: ToMainMenuBtn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6185,8 +6185,6 @@ GameObject:
   m_Component:
   - component: {fileID: 918646970}
   - component: {fileID: 918646971}
-  - component: {fileID: 918646972}
-  - component: {fileID: 918646973}
   m_Layer: 0
   m_Name: GPGSManager
   m_TagString: Untagged
@@ -6219,30 +6217,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5345f6921dfd89e4ab972e86bd0eba9c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &918646972
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 918646969}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 985b3c60f1e342744aa9a3c4fa528793, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &918646973
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 918646969}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d91053ef5259444aa6537f74c330b62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &963194225
@@ -7130,7 +7104,6 @@ MonoBehaviour:
   _minFallingSpeed: 5
   _maxFallingSpeed: 10
   _destroyRocksAfter: 20
-  _everyNRockFallOnPlayer: 4
   _rocksPfs:
   - {fileID: 6833549704285630684, guid: 20c8e5e1b1103f041abc44c8f6776faf, type: 3}
   - {fileID: 8487758314787039282, guid: 0093c1c66a128a84eafb9725b7c8a223, type: 3}
@@ -9905,7 +9878,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initializeDataIfNull: 1
-  _fileName: mynewsavefile.json
+  _fileName: saveFile.towerClimber
   _useEncryption: 0
 --- !u!4 &1429968077
 Transform:
@@ -10989,7 +10962,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1640627240}
-  m_LocalRotation: {x: -3.7888176e-10, y: 0.999764, z: -0.02172375, w: -0.000000017436788}
+  m_LocalRotation: {x: 3.7234277e-10, y: 0.999764, z: -0.021723729, w: 0.000000017135866}
   m_LocalPosition: {x: 0, y: 3, z: 17}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -13493,7 +13466,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1129349576}
         m_TargetAssemblyTypeName: DeathMenuUI, Assembly-CSharp
-        m_MethodName: Restart
+        m_MethodName: RestartGameBtn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

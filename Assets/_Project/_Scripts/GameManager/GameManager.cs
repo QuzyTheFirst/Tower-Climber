@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Localization.Settings;
 using UnityEngine.Localization;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 public class GameManager : MonoBehaviour, IDataPersistance
 {
@@ -43,6 +44,8 @@ public class GameManager : MonoBehaviour, IDataPersistance
     private int _coins = 0;
 
     private int _coinsThisMatch = 0;
+
+    private List<IRestartable> _iRestartableObjs;
 
     public int Coins { get { return _coins; } }
     public int Score { get { return _towerController.ScorePoints; } }
@@ -86,10 +89,7 @@ public class GameManager : MonoBehaviour, IDataPersistance
         ToggleInGamePause(true);
 
         Application.targetFrameRate = _targetFrameRate;
-    }
-    private void Start()
-    {
-        Application.targetFrameRate = _targetFrameRate;
+        _iRestartableObjs = Helper.FindInterfacesOfType<IRestartable>(true).ToList();
     }
     public void ChangeMoneyValue(int value, MoneyValue moneyValue)
     {
@@ -152,12 +152,15 @@ public class GameManager : MonoBehaviour, IDataPersistance
             _gpgsManager.Leaderboard.PostLeaderboardEntry(_maxScorePoints);
         }
 
+        GameUIController.Instance.ToggleInGameInterface(false);
         GameUIController.Instance.ToggleDeathMenu(true);
         GameUIController.Instance.DeathMenuUI.UpdateUI(_towerController.ScorePoints, _coinsThisMatch);
 
         ChangeMoneyValue(_coinsThisMatch, MoneyValue.Up);
 
         _coinsThisMatch = 0;
+
+        RestartAllRestartables();
     }
 
     public void ActivateGame()
@@ -169,9 +172,12 @@ public class GameManager : MonoBehaviour, IDataPersistance
         GameUIController.Instance.InGameUI.setCoins(_coinsThisMatch);
     }
 
-    public void RestartGame()
+    public void RestartAllRestartables()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        foreach (IRestartable restartableObj in _iRestartableObjs)
+        {
+            restartableObj.Restart();
+        }
     }
 
     public void LoadData(GameData data)

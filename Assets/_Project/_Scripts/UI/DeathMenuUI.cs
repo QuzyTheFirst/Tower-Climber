@@ -61,10 +61,16 @@ public class DeathMenuUI : MonoBehaviour
     }
 
     // Buttons
-    public void Restart()
+    public void ToMainMenuBtn()
     {
-        DataPersistanceManager.Instance.SaveGame();
+        GameUIController.Instance.ToggleDeathMenu(false);
+        GameUIController.Instance.ToggleMainMenu(true);
+    }
 
-        GameManager.Instance.RestartGame();
+    public void RestartGameBtn()
+    {
+        GameUIController.Instance.ToggleDeathMenu(false);
+
+        GameManager.Instance.ActivateGame();
     }
 }
