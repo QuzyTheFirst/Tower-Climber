@@ -40,6 +40,9 @@ public class GameManager : MonoBehaviour, IDataPersistance
     [Header("GPGS Manager")]
     [SerializeField] private GPGSManager _gpgsManager;
 
+    [Header("Missions Manager")]
+    [SerializeField] private MissionsManager _missionsManager;
+
     private int _maxScorePoints = 0;
     private int _coins = 0;
 
@@ -52,6 +55,7 @@ public class GameManager : MonoBehaviour, IDataPersistance
 
     public ShopManager ShopManager { get { return _shopManager; } }
     public GPGSManager GPGSManager { get { return _gpgsManager; } }
+    public MissionsManager MissionsManager { get { return _missionsManager; } }
 
     public PlayerController Player { get { return _playerController; } }
 
@@ -145,18 +149,27 @@ public class GameManager : MonoBehaviour, IDataPersistance
     {
         ToggleInGamePause(true);
 
-        if(_towerController.ScorePoints > _maxScorePoints)
+        RunData runData = new RunData()
         {
-            _maxScorePoints = _towerController.ScorePoints;
+            Coins = _coinsThisMatch,
+            Score = _towerController.ScorePoints,
+            TimesHidenInWindows = _towerController.TimesHidenInWindows
+        };
+        Debug.Log($"Coins: {runData.Coins} | Score: {runData.Score} | TimesHidenInWindow: {runData.TimesHidenInWindows}");
+        _missionsManager.ProcessMissionData(runData);
+
+        if(runData.Score > _maxScorePoints)
+        {
+            _maxScorePoints = runData.Score;
             GameUIController.Instance.MainMenuUI.setScore(_maxScorePoints);
             _gpgsManager.Leaderboard.PostLeaderboardEntry(_maxScorePoints);
         }
 
         GameUIController.Instance.ToggleInGameInterface(false);
         GameUIController.Instance.ToggleDeathMenu(true);
-        GameUIController.Instance.DeathMenuUI.UpdateUI(_towerController.ScorePoints, _coinsThisMatch);
+        GameUIController.Instance.DeathMenuUI.UpdateUI(runData.Score, runData.Coins);
 
-        ChangeMoneyValue(_coinsThisMatch, MoneyValue.Up);
+        ChangeMoneyValue(runData.Coins, MoneyValue.Up);
 
         _coinsThisMatch = 0;
 

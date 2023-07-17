@@ -29,6 +29,7 @@ public class TowerController : PlayerInputHandler, IRestartable
 
     //Scores
     private float _scorePoints = 0;
+    private int _timesHidenInWindow = 0;
 
     private Vector3 _towerPreferedPosition;
     private Quaternion _towerPreferedRotation;
@@ -53,6 +54,8 @@ public class TowerController : PlayerInputHandler, IRestartable
             return Mathf.RoundToInt(_scorePoints);
         }
     }
+
+    public int TimesHidenInWindows { get { return _timesHidenInWindow; } }
 
     protected override void OnEnable()
     {
@@ -118,7 +121,9 @@ public class TowerController : PlayerInputHandler, IRestartable
         _towerPreferedPosition = _towerPartsParent.transform.position - Vector3.up * window.transform.position.y;
 
         player.gameObject.layer = 8;
+
         _hasPlayerEnteredWindow = true;
+        _timesHidenInWindow++;
     }
 
     private void InitializeControls()
@@ -156,6 +161,7 @@ public class TowerController : PlayerInputHandler, IRestartable
         _towerPreferedRotation = _towerPartsParent.rotation;
 
         _hasPlayerEnteredWindow = false;
+        _timesHidenInWindow = 0;
 
         StopDashCoroutines();
 

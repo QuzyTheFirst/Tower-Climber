@@ -44,7 +44,34 @@ public class PlayerInputHandler : MonoBehaviour
             _secondFingerStartPosition = finger.position;
         }
 
-        if (finger.phase == TouchPhase.Ended)
+        if(finger.phase == TouchPhase.Moved)
+        {
+            if (_secondFingerLastEndedTouchID == finger.touchId)
+                return;
+
+            Vector2 fingerTrajectory = finger.position - _secondFingerStartPosition;
+            float leftDot = Vector2.Dot(fingerTrajectory, -Vector2.right);
+            float upDot = Vector2.Dot(fingerTrajectory, Vector2.up);
+            float rightDot = Vector2.Dot(fingerTrajectory, Vector2.right);
+
+            if (leftDot >= upDot + swipeDistance && leftDot >= rightDot + swipeDistance)
+            {
+                OnLeftSwipe?.Invoke(this, EventArgs.Empty);
+                _secondFingerLastEndedTouchID = finger.touchId;
+            }
+            if (rightDot >= upDot + swipeDistance && rightDot >= leftDot + swipeDistance)
+            {
+                OnRightSwipe?.Invoke(this, EventArgs.Empty);
+                _secondFingerLastEndedTouchID = finger.touchId;
+            }
+            if (upDot >= leftDot + swipeDistance && upDot >= rightDot + swipeDistance)
+            {
+                OnUpSwipe?.Invoke(this, EventArgs.Empty);
+                _secondFingerLastEndedTouchID = finger.touchId;
+            }
+        }
+
+        /*if (finger.phase == TouchPhase.Ended)
         {
             if (_secondFingerLastEndedTouchID == finger.touchId)
                 return;
@@ -67,7 +94,7 @@ public class PlayerInputHandler : MonoBehaviour
             {
                 OnUpSwipe?.Invoke(this, EventArgs.Empty);
             }
-        }
+        }*/
     }
 
     private void FirstFinger_performed(InputAction.CallbackContext context)
@@ -82,7 +109,34 @@ public class PlayerInputHandler : MonoBehaviour
             _firstFingerStartPosition = finger.position;
         }
 
-        if (finger.phase == TouchPhase.Ended)
+        if(finger.phase == TouchPhase.Moved)
+        {
+            if (_firstFingerLastEndedTouchID == finger.touchId)
+                return;
+
+            Vector2 fingerTrajectory = finger.position - _firstFingerStartPosition;
+            float leftDot = Vector2.Dot(fingerTrajectory, -Vector2.right);
+            float upDot = Vector2.Dot(fingerTrajectory, Vector2.up);
+            float rightDot = Vector2.Dot(fingerTrajectory, Vector2.right);
+
+            if (leftDot >= upDot + swipeDistance && leftDot >= rightDot + swipeDistance)
+            {
+                OnLeftSwipe?.Invoke(this, EventArgs.Empty);
+                _firstFingerLastEndedTouchID = finger.touchId;
+            }
+            if (rightDot >= upDot + swipeDistance && rightDot >= leftDot + swipeDistance)
+            {
+                OnRightSwipe?.Invoke(this, EventArgs.Empty);
+                _firstFingerLastEndedTouchID = finger.touchId;
+            }
+            if (upDot >= leftDot + swipeDistance && upDot >= rightDot + swipeDistance)
+            {
+                OnUpSwipe?.Invoke(this, EventArgs.Empty);
+                _firstFingerLastEndedTouchID = finger.touchId;
+            }
+        }
+
+        /*if (finger.phase == TouchPhase.Ended)
         {
             if (_firstFingerLastEndedTouchID == finger.touchId)
                 return;
@@ -105,7 +159,7 @@ public class PlayerInputHandler : MonoBehaviour
             {
                 OnUpSwipe?.Invoke(this, EventArgs.Empty);
             }
-        }
+        }*/
     }
 
     protected virtual void OnEnable()

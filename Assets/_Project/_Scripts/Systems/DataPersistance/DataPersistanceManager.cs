@@ -57,7 +57,10 @@ public class DataPersistanceManager : MonoBehaviour
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         _dataPersistanceObjects = FindAllDataPersistenceObjects();
-        //LoadGame();
+
+        #if(UNITY_EDITOR)
+            LoadGame();
+        #endif
     }
 
     public void OnSceneUnloaded(Scene scene)
