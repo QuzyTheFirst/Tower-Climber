@@ -23,4 +23,9 @@ public class SettingsUI : MonoBehaviour
     {
         GameManager.Instance.ChangeLanguage(language);
     }
+
+    public void ClearSavedDataBtn()
+    {
+        GameManager.Instance.ClearSavedData();
+    }
 }

@@ -41,4 +41,9 @@ public class Costume : MonoBehaviour
     {
         _isBought = true;
     }
+
+    public void Restart()
+    {
+        _isBought = false;
+    }
 }

@@ -98,6 +98,13 @@ public class CostumesShopUI : MonoBehaviour
         _localStringPrice.RefreshString();
     }
 
+    public void RestartCostumeUI()
+    {
+        _chosenCostume = 0;
+        _shop.CostumeSwapper.ChangeCostume(GameManager.Instance.ShopManager.SelectedCostume.transform);
+        UpdateBuySelectButton();
+    }
+
     private void ButButtonTextChanged(string value)
     {
         _buySelectButtonText.text = value;

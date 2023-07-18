@@ -130,6 +130,9 @@ public class RocksController : MonoBehaviour, IRestartable
                 Destroy(rock.gameObject);
         }
 
+        _currentAmountOfRocksPerSecond = _startingAmountOfRocksPerSecond;
+        _rocksPerSecondChangerTimer = 0;
+
         _spawnedRocks.Clear();
     }
 

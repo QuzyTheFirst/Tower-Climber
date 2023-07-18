@@ -69,6 +69,13 @@ public class MissionsManager : MonoBehaviour, IDataPersistance
         }
     }
 
+    public void RestartMissionsManager()
+    {
+        _currentMission = 0;
+        CurrentMission.AchievedAmount = 0;
+        GameUIController.Instance.MissionsUI.UpdateUI(CurrentMission);
+    }
+
     public void LoadData(GameData data)
     {
         _currentMission = data.CurrentMission;

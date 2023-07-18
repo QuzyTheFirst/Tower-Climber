@@ -193,6 +193,20 @@ public class GameManager : MonoBehaviour, IDataPersistance
         }
     }
 
+    public void ClearSavedData()
+    {
+        DataPersistanceManager.Instance.NewGame();
+
+        _coins = 0;
+        _coinsThisMatch = 0;
+
+        _shopManager.RestartShopManager();
+        _missionsManager.RestartMissionsManager();
+        GameUIController.Instance.MainMenuUI.UpdateUI(0, 0);
+
+        DataPersistanceManager.Instance.SaveGame();
+    }
+
     public void LoadData(GameData data)
     {
         _maxScorePoints = data.RecordScorePoints;

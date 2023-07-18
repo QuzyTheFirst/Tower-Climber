@@ -79,6 +79,19 @@ public class ShopManager : MonoBehaviour, IDataPersistance
         return costume;
     }
 
+    public void RestartShopManager()
+    {
+        foreach(Costume costume in _allCostumes)
+        {
+            costume.Restart();
+        }
+
+        GetCostume(0).Buy();
+        ChangeSelectedCostume(0);
+
+        GameUIController.Instance.CostumesShopUI.RestartCostumeUI();
+    }
+
     public void LoadData(GameData data)
     {
         foreach (Costume costume in _allCostumes)
