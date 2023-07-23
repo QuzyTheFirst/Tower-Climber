@@ -17,6 +17,7 @@ public class GameUIController : MonoBehaviour
     [SerializeField] private MissionsUI _missionsUI;
     [SerializeField] private DeathMenuUI _deathMenuUI;
     [SerializeField] private CostumesShopUI _costumesShopUI;
+    [SerializeField] private CutsceneController _cutsceneUI;
 
     public PauseUI PauseUI { get { return _pauseUI; } }
     public InGameUI InGameUI { get { return _inGameUI; } }
@@ -25,6 +26,7 @@ public class GameUIController : MonoBehaviour
     public MissionsUI MissionsUI { get { return _missionsUI; } }
     public DeathMenuUI DeathMenuUI { get { return _deathMenuUI; } }
     public CostumesShopUI CostumesShopUI { get { return _costumesShopUI; } }
+    public CutsceneController CutsceneUI { get { return _cutsceneUI; } }
 
 
     private void Awake()
@@ -71,5 +73,10 @@ public class GameUIController : MonoBehaviour
     public void ToggleCostumesShop(bool value)
     {
         _costumesShopUI.gameObject.SetActive(value);
+    }
+
+    public void ToggleCutsceneUI(bool value)
+    {
+        _cutsceneUI.gameObject.SetActive(value);
     }
 }

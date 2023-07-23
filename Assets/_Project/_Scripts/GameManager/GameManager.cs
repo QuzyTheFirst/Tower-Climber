@@ -50,6 +50,8 @@ public class GameManager : MonoBehaviour, IDataPersistance
 
     private List<IRestartable> _iRestartableObjs;
 
+    private bool _hasShownStartingCutscene = false;
+
     public int Coins { get { return _coins; } }
     public int Score { get { return _towerController.ScorePoints; } }
 
@@ -62,11 +64,18 @@ public class GameManager : MonoBehaviour, IDataPersistance
     private void OnEnable()
     {
         Coin.OnPlayerHitCoin += OnCoinCollected;
+        CutsceneController.OnCutsceneEnd += CutsceneUI_OnCutsceneEnd;
     }
 
     private void OnDisable()
     {
         Coin.OnPlayerHitCoin -= OnCoinCollected;
+        CutsceneController.OnCutsceneEnd -= CutsceneUI_OnCutsceneEnd;
+    }
+
+    private void CutsceneUI_OnCutsceneEnd(object sender, System.EventArgs e)
+    {
+        GameUIController.Instance.ToggleCutsceneUI(false);
     }
 
     private void OnCoinCollected(object sender, System.EventArgs e)
@@ -95,6 +104,7 @@ public class GameManager : MonoBehaviour, IDataPersistance
         Application.targetFrameRate = _targetFrameRate;
         _iRestartableObjs = Helper.FindInterfacesOfType<IRestartable>(true).ToList();
     }
+
     public void ChangeMoneyValue(int value, MoneyValue moneyValue)
     {
         switch (moneyValue)
@@ -211,9 +221,16 @@ public class GameManager : MonoBehaviour, IDataPersistance
     {
         _maxScorePoints = data.RecordScorePoints;
         _coins = data.Coins;
+        _hasShownStartingCutscene = data.HasShownStartingCutscene;
         GameUIController.Instance.MainMenuUI.UpdateUI(_maxScorePoints, _coins);
 
         ChangeLanguage((int)data.SelectedLanguage);
+
+        if(_hasShownStartingCutscene == false)
+        {
+            GameUIController.Instance.ToggleCutsceneUI(true);
+            GameUIController.Instance.CutsceneUI.StartShowingCutscene();
+        }
     }
 
     public void SaveData(GameData data)
@@ -222,5 +239,7 @@ public class GameManager : MonoBehaviour, IDataPersistance
         data.Coins = _coins;
 
         data.SelectedLanguage = _currentGameLanguage;
+
+        data.HasShownStartingCutscene = _hasShownStartingCutscene;
     }
 }

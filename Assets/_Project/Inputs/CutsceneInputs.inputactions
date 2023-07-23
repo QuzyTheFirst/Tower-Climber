@@ -1,0 +1,46 @@
+{
+    "name": "CutsceneInputs",
+    "maps": [
+        {
+            "name": "Map",
+            "id": "a96d69ff-a161-4721-a4ac-d957632afec5",
+            "actions": [
+                {
+                    "name": "Skip",
+                    "type": "Button",
+                    "id": "223742d4-2979-4519-bd7f-912eff3acee5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "aef80ae5-0123-498e-b5b3-62d4dd3be9ad",
+                    "path": "<Touchscreen>/Press",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Mobiles",
+                    "action": "Skip",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "Mobiles",
+            "bindingGroup": "Mobiles",
+            "devices": [
+                {
+                    "devicePath": "<Touchscreen>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
+}

@@ -16,6 +16,8 @@ public class GameData
     public int CurrentMission;
     public int MissionAchievedAmount;
 
+    public bool HasShownStartingCutscene;
+
     public GameData()
     {
         RecordScorePoints = 0;
@@ -25,5 +27,6 @@ public class GameData
         CurrentMission = 0;
         MissionAchievedAmount = 0;
         CostumesOpened = new Dictionary<ShopManager.CostumeType, bool>();
+        HasShownStartingCutscene = false;
     }
 }
