@@ -13,10 +13,6 @@ public class TowerController : PlayerInputHandler, IRestartable
     [SerializeField] private Transform _towerPartsParent;
     [SerializeField] private Transform[] _towerPartsPfs;
 
-    [Header("Camera")]
-    [SerializeField] private Transform _cameraLookAtTf;
-    [SerializeField] private Transform _cameraPositionTf;
-
     private List<Transform> _spawnedParts;
 
     private bool _isInUpDash;
@@ -35,9 +31,6 @@ public class TowerController : PlayerInputHandler, IRestartable
     private Quaternion _towerPreferedRotation;
 
     private Coroutine _dashCoroutine;
-
-    public Transform CameraLookAtTf { get { return _cameraLookAtTf; } }
-    public Vector3 CameraPosition { get { return _cameraPositionTf.position; } }
 
     private bool _isInDash
     {

@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _checkForObstaclesDistance;
     [SerializeField] private LayerMask _obstaclesMask;
 
+    [SerializeField] private Transform _cameraLookPosition;
+
     private CostumeSwapper _costumeSwapper;
 
     private Rigidbody _rig;

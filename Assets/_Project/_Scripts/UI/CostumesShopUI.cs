@@ -35,7 +35,7 @@ public class CostumesShopUI : MonoBehaviour
     {
         Costume costume = GameManager.Instance.ShopManager.SelectedCostume;
         _chosenCostume = (int)costume.CostumeType;
-        _shop.CostumeSwapper.ChangeCostume(costume.transform);
+        _shop.CostumeSwapper.ChangeCostume(costume);
         UpdateBuySelectButton();
     }
 
@@ -53,7 +53,7 @@ public class CostumesShopUI : MonoBehaviour
         UpdateBuySelectButton();
 
         Costume costume = GameManager.Instance.ShopManager.GetCostume((ShopManager.CostumeType)_chosenCostume);
-        _shop.CostumeSwapper.ChangeCostume(costume.transform);
+        _shop.CostumeSwapper.ChangeCostume(costume);
     }
 
     public void Right()
@@ -65,7 +65,7 @@ public class CostumesShopUI : MonoBehaviour
         UpdateBuySelectButton();
 
         Costume costume = GameManager.Instance.ShopManager.GetCostume((ShopManager.CostumeType)_chosenCostume);
-        _shop.CostumeSwapper.ChangeCostume(costume.transform);
+        _shop.CostumeSwapper.ChangeCostume(costume);
     }
 
     public void BuySelect()
@@ -77,7 +77,7 @@ public class CostumesShopUI : MonoBehaviour
         }
     }
 
-    private void UpdateBuySelectButton()
+    public void UpdateBuySelectButton()
     {
         Costume costume = GameManager.Instance.ShopManager.GetCostume((ShopManager.CostumeType)_chosenCostume);
         if (costume.IsBought && costume == GameManager.Instance.ShopManager.SelectedCostume)
@@ -101,7 +101,7 @@ public class CostumesShopUI : MonoBehaviour
     public void RestartCostumeUI()
     {
         _chosenCostume = 0;
-        _shop.CostumeSwapper.ChangeCostume(GameManager.Instance.ShopManager.SelectedCostume.transform);
+        _shop.CostumeSwapper.ChangeCostume(GameManager.Instance.ShopManager.SelectedCostume);
         UpdateBuySelectButton();
     }
 

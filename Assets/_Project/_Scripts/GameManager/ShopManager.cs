@@ -42,7 +42,7 @@ public class ShopManager : MonoBehaviour, IDataPersistance
             Debug.LogError($"Error! Costume of type {costumeType} wasn't found!");
         }
 
-        _gameManager.Player.CostumeSwapper.ChangeCostume(costume.transform);
+        _gameManager.Player.CostumeSwapper.ChangeCostume(costume);
 
         _currentChosenCostume = costume;
     }

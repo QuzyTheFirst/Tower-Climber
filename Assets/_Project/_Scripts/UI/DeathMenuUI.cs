@@ -65,11 +65,23 @@ public class DeathMenuUI : MonoBehaviour
     {
         GameUIController.Instance.ToggleDeathMenu(false);
         GameUIController.Instance.ToggleMainMenu(true);
+
+        GameManager.Instance.PlayerIdleAnim();
+
+        GameManager.Instance.RestartAllRestartables();
+
+        GameManager.Instance.SwitchCameraToMainMenu();
     }
 
     public void RestartGameBtn()
     {
         GameUIController.Instance.ToggleDeathMenu(false);
+
+        GameManager.Instance.PlayerIdleAnim();
+
+        GameManager.Instance.RestartAllRestartables();
+
+        GameManager.Instance.SwitchCameraToMainMenu();
 
         GameManager.Instance.ActivateGame();
     }

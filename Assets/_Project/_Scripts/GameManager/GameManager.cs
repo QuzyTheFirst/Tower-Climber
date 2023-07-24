@@ -22,13 +22,20 @@ public class GameManager : MonoBehaviour, IDataPersistance
         Down,
     }
 
+    public enum GameState 
+    { 
+        InPlay,
+        Paused
+    }
+    private GameState _currentGameState = GameState.Paused;
+
     public static GameManager Instance;
 
     [Header("Frames")]
     [SerializeField] private int _targetFrameRate = 60;
 
     [Header("Camera")]
-    [SerializeField] private CinemachineVirtualCamera _camera;
+    [SerializeField] private CameraController _cameraHelper;
 
     [Header("References")]
     [SerializeField] private PlayerController _playerController;
@@ -60,6 +67,8 @@ public class GameManager : MonoBehaviour, IDataPersistance
     public MissionsManager MissionsManager { get { return _missionsManager; } }
 
     public PlayerController Player { get { return _playerController; } }
+
+    public GameState CurrentGameState { get { return _currentGameState; } }
 
     private void OnEnable()
     {
@@ -103,6 +112,8 @@ public class GameManager : MonoBehaviour, IDataPersistance
 
         Application.targetFrameRate = _targetFrameRate;
         _iRestartableObjs = Helper.FindInterfacesOfType<IRestartable>(true).ToList();
+
+        _cameraHelper.SwitchCameraToMainMenu();
     }
 
     public void ChangeMoneyValue(int value, MoneyValue moneyValue)
@@ -124,6 +135,7 @@ public class GameManager : MonoBehaviour, IDataPersistance
 
     public void ToggleInGamePause(bool value)
     {
+        _currentGameState = value ? GameState.Paused : GameState.InPlay;
         Time.timeScale = value ? 0 : 1;
     }
 
@@ -141,18 +153,26 @@ public class GameManager : MonoBehaviour, IDataPersistance
 
     public void SwitchCameraToCostumeShopMenu()
     {
-        _camera.transform.position = _shopManager.Shop.CameraPosition;
-        _camera.LookAt = _shopManager.Shop.CameraLookAtObject;
+        _cameraHelper.SwitchCameraToCostumeShop();
 
         GameUIController.Instance.CostumesShopUI.UpdateUI(_coins);
     }
 
     public void SwitchCameraToMainMenu()
     {
-        _camera.transform.position = _towerController.CameraPosition;
-        _camera.LookAt = _towerController.CameraLookAtTf;
+        _cameraHelper.SwitchCameraToMainMenu();
 
         GameUIController.Instance.MainMenuUI.setCoins(_coins);
+    }
+
+    public void SwitchCameraToPlayerFalling()
+    {
+        _cameraHelper.SwitchCameraToPlayerFalling();
+    }
+
+    public void PlayerIdleAnim()
+    {
+        _playerController.CostumeSwapper.CurrentCostume.PlayIdleAnim();
     }
 
     public void KillPlayer()
@@ -183,7 +203,9 @@ public class GameManager : MonoBehaviour, IDataPersistance
 
         _coinsThisMatch = 0;
 
-        RestartAllRestartables();
+        _playerController.CostumeSwapper.CurrentCostume.PlayFallingAnim();
+
+        SwitchCameraToPlayerFalling();
     }
 
     public void ActivateGame()

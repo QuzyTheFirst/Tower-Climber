@@ -14,6 +14,9 @@
 /[Aa]ssets/Plugins
 /[Aa]ssets/TextMesh Pro
 /[Aa]ssets/ExternalDependencyManager
+/[Aa]ssets/LMHPOLY
+/[Aa]ssets/LeanTween
+/[Aa]ssets/SkySeries Freebie
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data

@@ -8,6 +8,13 @@ public class Costume : MonoBehaviour
     [SerializeField] private int _cost;
     private bool _isBought;
 
+    private Animator _anim;
+
+    private void Awake()
+    {
+        _anim = GetComponent<Animator>();
+    }
+
     public ShopManager.CostumeType CostumeType
     {
         get
@@ -46,4 +53,18 @@ public class Costume : MonoBehaviour
     {
         _isBought = false;
     }
+
+    #region Animations
+    public void PlayFallingAnim()
+    {
+        if(_anim != null)
+            _anim.SetTrigger("Fall");
+    }
+
+    public void PlayIdleAnim()
+    {
+        if(_anim != null)
+            _anim.SetTrigger("Idle");
+    }
+    #endregion
 }
