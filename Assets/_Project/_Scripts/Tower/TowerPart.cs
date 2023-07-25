@@ -19,8 +19,11 @@ public class TowerPart : MonoBehaviour
     private void Awake()
     {
         _boxCollider = GetComponent<BoxCollider>();
+    }
 
-        foreach(GameObject coins in _coinsCollumns)
+    public void RandomizeWindowsAndCoins()
+    {
+        foreach (GameObject coins in _coinsCollumns)
         {
             float chanceToSpawn = 1f / _chanceToSpawnCoinsOneTo;
             bool spawnCoins = Random.value <= chanceToSpawn ? true : false;
@@ -32,6 +35,19 @@ public class TowerPart : MonoBehaviour
             float chanceToSpawn = 1f / _chanceToSpawnWindowOneTo;
             bool spawnWindow = Random.value <= chanceToSpawn ? true : false;
             window.SetActive(spawnWindow);
+        }
+    }
+
+    public void DeactivateAllWindowsAndCoins()
+    {
+        foreach (GameObject coins in _coinsCollumns)
+        {
+            coins.SetActive(false);
+        }
+
+        foreach (GameObject window in _windows)
+        {
+            window.SetActive(false);
         }
     }
 

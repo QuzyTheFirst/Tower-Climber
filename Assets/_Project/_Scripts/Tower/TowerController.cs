@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class TowerController : PlayerInputHandler, IRestartable
 {
-    [SerializeField] private float _maxTowerPartsOnScreen = 7;
+    [SerializeField] private float _maxTowerPartsOnScreen = 4;
     [SerializeField] private float _towerDashDegree = 45;
     [SerializeField] private float _towerDashTime = .5f;
     [SerializeField] private float _towerUpDashDistance = 3;
@@ -174,7 +174,14 @@ public class TowerController : PlayerInputHandler, IRestartable
 
         _spawnedParts.Add(part);
 
-        if(_spawnedParts.Count >= _maxTowerPartsOnScreen)
+        TowerPart towerPart = part.GetComponent<TowerPart>();
+
+        towerPart.RandomizeWindowsAndCoins();
+
+        if (_spawnedParts.Count == 4)
+            towerPart.DeactivateAllWindowsAndCoins();
+
+        if (_spawnedParts.Count >= _maxTowerPartsOnScreen)
         {
             DeleteOldestPart();
         }

@@ -85,7 +85,7 @@ public class RocksController : MonoBehaviour, IRestartable
 
         Transform rock = Instantiate(randomRock);
         rock.position = spawnPosition;
-        rock.localRotation = Quaternion.Euler(0, randomRotation.eulerAngles.y, 0);
+        rock.localRotation = Quaternion.Euler(90, randomRotation.eulerAngles.y, 0);
         rock.parent = _rocksParent;
 
         rock.GetComponent<Rigidbody>().velocity = Vector3.down * randomSpeed;

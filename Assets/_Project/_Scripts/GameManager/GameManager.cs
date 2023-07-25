@@ -248,11 +248,11 @@ public class GameManager : MonoBehaviour, IDataPersistance
 
         ChangeLanguage((int)data.SelectedLanguage);
 
-        if(_hasShownStartingCutscene == false)
+        /*if(_hasShownStartingCutscene == false)
         {
             GameUIController.Instance.ToggleCutsceneUI(true);
             GameUIController.Instance.CutsceneUI.StartShowingCutscene();
-        }
+        }*/
     }
 
     public void SaveData(GameData data)

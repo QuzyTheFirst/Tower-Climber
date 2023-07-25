@@ -131,7 +131,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba51cc784f2ea784e9faa2f4367c20d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _chanceToSpawnCoinsOneTo: 4
+  _chanceToSpawnCoinsOneTo: 6
   _chanceToSpawnWindowOneTo: 2
   _coinsCollumns:
   - {fileID: 2940914122102484434}
