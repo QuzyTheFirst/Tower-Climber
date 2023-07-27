@@ -18,8 +18,6 @@ public class PlayerController : MonoBehaviour
 
     private bool _playerGotAway = false;
 
-    private Animator _anim;
-
     public CostumeSwapper CostumeSwapper
     {
         get
@@ -34,8 +32,6 @@ public class PlayerController : MonoBehaviour
         _startingPos = transform.position;
 
         _costumeSwapper = GetComponentInChildren<CostumeSwapper>();
-
-        _anim = GetComponent<Animator>();
     }
 
     private void FixedUpdate()
@@ -62,17 +58,20 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void FallingAnim() => _anim.SetTrigger("Fall");
+    public void FallingAnim() => _costumeSwapper.CurrentCostume?.FallingAnim();
 
-    public void IdleAnim() => _anim.SetTrigger("Idle");
+    public void IdleAnim() => _costumeSwapper.CurrentCostume?.IdleAnim();
 
-    public void ClimbingAnim() => _anim.SetTrigger("Climb");
+    public void ClimbingAnim() => _costumeSwapper.CurrentCostume?.ClimbingAnim();
 
-    public void GoInWindowAnim() => _anim.SetTrigger("GoInWindow");
+    public void GoInWindowAnim() => _costumeSwapper.CurrentCostume?.GoInWindowAnim();
 
-    public void GoOutWindowAnim() => _anim.SetTrigger("GoOutWindow");
+    public void GoOutWindowAnim() => _costumeSwapper.CurrentCostume?.GoOutWindowAnim();
+    public void UpJumpAnim() => _costumeSwapper.CurrentCostume?.UpJumpAnim();
+    public void LeftJumpAnim() => _costumeSwapper.CurrentCostume?.LeftJumpAnim();
+    public void RightJumpAnim() => _costumeSwapper.CurrentCostume?.RightJumpAnim();
 
-    public void ToggleIK(bool value) => _costumeSwapper.CurrentCostume.ToggleIK(value);
+    public void ToggleIK(bool value) => _costumeSwapper.CurrentCostume?.ToggleIK(value);
 
     private void OnDrawGizmos()
     {

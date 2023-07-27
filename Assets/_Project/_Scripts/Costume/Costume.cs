@@ -27,6 +27,13 @@ public class Costume : MonoBehaviour
     private bool _isRestoringRightArmPos = false;
     private bool _isRestoringLeftArmPos = false;
 
+    private Animator _anim;
+
+    private void Awake()
+    {
+        _anim = GetComponent<Animator>();
+    }
+
     private void Update()
     {
         float towerSpeed = GameManager.Instance.TowerController.TowerSpeed;
@@ -52,10 +59,48 @@ public class Costume : MonoBehaviour
         }
     }
 
+    public void FallingAnim() => _anim.SetTrigger("Fall");
+
+    public void IdleAnim() => _anim.SetTrigger("Idle");
+
+    public void ClimbingAnim() => _anim.SetTrigger("Climb");
+
+    public void GoInWindowAnim() => _anim.SetTrigger("GoInWindow");
+
+    public void GoOutWindowAnim() => _anim.SetTrigger("GoOutWindow");
+
+    public void UpJumpAnim() 
+    {
+        _anim.SetTrigger("UpJump"); 
+    }
+    public void LeftJumpAnim() 
+    {
+        _anim.SetTrigger("LeftJump"); 
+    }
+    public void RightJumpAnim() 
+    {
+        _anim.SetTrigger("RightJump"); 
+    }
+
     public void ToggleIK(bool value)
     {
         _rightArmIK.enabled = value;
         _leftArmIK.enabled = value;
+    }
+
+    public void ToggleIKOff()
+    {
+        _rightArmIK.enabled = false;
+        _leftArmIK.enabled = false;
+    }
+
+    public void ToggleIKOn()
+    {
+        _rightArmTarget.position = _rightArmIK.transform.position;
+        _leftArmTarget.position = _leftArmIK.transform.position;
+
+        _rightArmIK.enabled = true;
+        _leftArmIK.enabled = true;
     }
 
     public ShopManager.CostumeType CostumeType
