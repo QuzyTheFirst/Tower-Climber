@@ -121,7 +121,7 @@ public class TowerController : PlayerInputHandler, IRestartable
 
         PlayerController player = GameManager.Instance.Player;
 
-        player.GoInWindowAnim();
+        player.ToggleIsInsideWindow(true);
 
         _towerPreferedPosition = _towerPartsParent.transform.position - Vector3.up * window.transform.position.y;
 
@@ -244,14 +244,12 @@ public class TowerController : PlayerInputHandler, IRestartable
         
         _isInLeftDash = true;
 
-        if (_hasPlayerEnteredWindow)
-        {
-            _hasPlayerEnteredWindow = false;
-            //GameManager.Instance.Player.GoOutWindowAnim();
-            //GameManager.Instance.Player.LeftJumpAnim();
-        }
-
+        _hasPlayerEnteredWindow = false;
+        
+        GameManager.Instance.Player.ToggleIsInsideWindow(false);
         GameManager.Instance.Player.LeftJumpAnim();
+
+        GameManager.Instance.CameraController.LeftAnim();
 
         Quaternion endDashRotation = Quaternion.Euler(0, _towerPreferedRotation.eulerAngles.y - _towerDashDegree, 0);
 
@@ -277,14 +275,12 @@ public class TowerController : PlayerInputHandler, IRestartable
         
         _isInRightDash = true;
 
-        if (_hasPlayerEnteredWindow)
-        {
-            _hasPlayerEnteredWindow = false;
-            //GameManager.Instance.Player.GoOutWindowAnim();
-            //GameManager.Instance.Player.RightJumpAnim();
-        }
-
+        _hasPlayerEnteredWindow = false;
+        
+        GameManager.Instance.Player.ToggleIsInsideWindow(false);
         GameManager.Instance.Player.RightJumpAnim();
+
+        GameManager.Instance.CameraController.RightAnim();
 
         Quaternion endDashRotation = Quaternion.Euler(0, _towerPreferedRotation.eulerAngles.y + _towerDashDegree, 0);
 
@@ -312,9 +308,11 @@ public class TowerController : PlayerInputHandler, IRestartable
 
         _hasPlayerEnteredWindow = false;
 
-        //GameManager.Instance.Player.GoOutWindowAnim();
+        GameManager.Instance.Player.ToggleIsInsideWindow(false);
 
         GameManager.Instance.Player.UpJumpAnim();
+
+        GameManager.Instance.CameraController.UpAnim();
 
         Vector3 endDashPosition = _towerPartsParent.position - Vector3.up * _towerUpDashDistance;
 

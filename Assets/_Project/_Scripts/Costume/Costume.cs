@@ -65,9 +65,10 @@ public class Costume : MonoBehaviour
 
     public void ClimbingAnim() => _anim.SetTrigger("Climb");
 
-    public void GoInWindowAnim() => _anim.SetTrigger("GoInWindow");
-
-    public void GoOutWindowAnim() => _anim.SetTrigger("GoOutWindow");
+    public void ToggleIsInsideWindow(bool value)
+    {
+        _anim.SetBool("IsInsideWindow", value);
+    }
 
     public void UpJumpAnim() 
     {

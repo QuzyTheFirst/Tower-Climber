@@ -64,9 +64,7 @@ public class PlayerController : MonoBehaviour
 
     public void ClimbingAnim() => _costumeSwapper.CurrentCostume?.ClimbingAnim();
 
-    public void GoInWindowAnim() => _costumeSwapper.CurrentCostume?.GoInWindowAnim();
-
-    public void GoOutWindowAnim() => _costumeSwapper.CurrentCostume?.GoOutWindowAnim();
+    public void ToggleIsInsideWindow(bool value) => _costumeSwapper.CurrentCostume?.ToggleIsInsideWindow(value);
     public void UpJumpAnim() => _costumeSwapper.CurrentCostume?.UpJumpAnim();
     public void LeftJumpAnim() => _costumeSwapper.CurrentCostume?.LeftJumpAnim();
     public void RightJumpAnim() => _costumeSwapper.CurrentCostume?.RightJumpAnim();

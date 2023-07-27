@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour, IDataPersistance
     [SerializeField] private int _targetFrameRate = 60;
 
     [Header("Camera")]
-    [SerializeField] private CameraController _cameraHelper;
+    [SerializeField] private CameraController _cameraController;
 
     [Header("References")]
     [SerializeField] private PlayerController _playerController;
@@ -71,6 +71,8 @@ public class GameManager : MonoBehaviour, IDataPersistance
     public PlayerController Player { get { return _playerController; } }
 
     public GameState CurrentGameState { get { return _currentGameState; } }
+
+    public CameraController CameraController { get { return _cameraController; } }
 
     private void OnEnable()
     {
@@ -115,7 +117,7 @@ public class GameManager : MonoBehaviour, IDataPersistance
         Application.targetFrameRate = _targetFrameRate;
         _iRestartableObjs = Helper.FindInterfacesOfType<IRestartable>(true).ToList();
 
-        _cameraHelper.SwitchCameraToMainMenu();
+        _cameraController.SwitchCameraToMainMenu();
     }
 
     public void ChangeMoneyValue(int value, MoneyValue moneyValue)
@@ -155,21 +157,21 @@ public class GameManager : MonoBehaviour, IDataPersistance
 
     public void SwitchCameraToCostumeShopMenu()
     {
-        _cameraHelper.SwitchCameraToCostumeShop();
+        _cameraController.SwitchCameraToCostumeShop();
 
         GameUIController.Instance.CostumesShopUI.UpdateUI(_coins);
     }
 
     public void SwitchCameraToMainMenu()
     {
-        _cameraHelper.SwitchCameraToMainMenu();
+        _cameraController.SwitchCameraToMainMenu();
 
         GameUIController.Instance.MainMenuUI.setCoins(_coins);
     }
 
     public void SwitchCameraToPlayerFalling()
     {
-        _cameraHelper.SwitchCameraToPlayerFalling();
+        _cameraController.SwitchCameraToPlayerFalling();
     }
 
     public void PlayerIdleAnim()
