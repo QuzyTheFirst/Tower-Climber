@@ -48,6 +48,12 @@ public class TowerController : PlayerInputHandler, IRestartable
         }
     }
 
+    public float TowerSpeed { get { return _towerFallSpeed; } }
+
+    public Vector3 TowerMovementVelocity { get { return _towerPreferedPosition - _towerPartsParent.position; } }
+
+    public bool IsTowerMoving { get { return _hasPlayerEnteredWindow || _isInUpDash ? false : true; } }
+
     public int TimesHidenInWindows { get { return _timesHidenInWindow; } }
 
     protected override void OnEnable()
@@ -95,6 +101,8 @@ public class TowerController : PlayerInputHandler, IRestartable
     {
         Window window = sender as Window;
 
+        window.OpenCloseWindow();
+
         GameManager.Instance.Player.gameObject.layer = 3;
         _hasPlayerEnteredWindow = false;
     }
@@ -107,9 +115,13 @@ public class TowerController : PlayerInputHandler, IRestartable
             return;
         window.PlayerHasEntered = true;
 
+        window.CloseWindow();
+
         StopDashCoroutines();
 
         PlayerController player = GameManager.Instance.Player;
+
+        player.GoInWindowAnim();
 
         _towerPreferedPosition = _towerPartsParent.transform.position - Vector3.up * window.transform.position.y;
 
@@ -233,7 +245,10 @@ public class TowerController : PlayerInputHandler, IRestartable
         _isInLeftDash = true;
 
         if (_hasPlayerEnteredWindow)
+        {
             _hasPlayerEnteredWindow = false;
+            GameManager.Instance.Player.GoOutWindowAnim();
+        }
 
         Quaternion endDashRotation = Quaternion.Euler(0, _towerPreferedRotation.eulerAngles.y - _towerDashDegree, 0);
 
@@ -259,8 +274,11 @@ public class TowerController : PlayerInputHandler, IRestartable
         
         _isInRightDash = true;
 
-        if(_hasPlayerEnteredWindow)
+        if (_hasPlayerEnteredWindow)
+        {
             _hasPlayerEnteredWindow = false;
+            GameManager.Instance.Player.GoOutWindowAnim();
+        }
 
         Quaternion endDashRotation = Quaternion.Euler(0, _towerPreferedRotation.eulerAngles.y + _towerDashDegree, 0);
 
@@ -287,6 +305,8 @@ public class TowerController : PlayerInputHandler, IRestartable
         _isInUpDash = true;
 
         _hasPlayerEnteredWindow = false;
+
+        GameManager.Instance.Player.GoOutWindowAnim();
 
         Vector3 endDashPosition = _towerPartsParent.position - Vector3.up * _towerUpDashDistance;
 

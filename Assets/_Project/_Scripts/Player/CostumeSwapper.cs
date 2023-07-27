@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CostumeSwapper : MonoBehaviour
 {
-    private Costume _currentCostume;
+    /*[SerializeField]*/ private Costume _currentCostume;
 
     public Costume CurrentCostume { get { return _currentCostume; } }
 
@@ -14,5 +14,7 @@ public class CostumeSwapper : MonoBehaviour
             Destroy(_currentCostume.gameObject);
 
         _currentCostume = Instantiate(costumeTf, transform);
+
+        //_currentCostume.name = "CostumeVisuals";
     }
 }

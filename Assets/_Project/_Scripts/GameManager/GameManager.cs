@@ -62,6 +62,8 @@ public class GameManager : MonoBehaviour, IDataPersistance
     public int Coins { get { return _coins; } }
     public int Score { get { return _towerController.ScorePoints; } }
 
+    public TowerController TowerController { get { return _towerController; } }
+
     public ShopManager ShopManager { get { return _shopManager; } }
     public GPGSManager GPGSManager { get { return _gpgsManager; } }
     public MissionsManager MissionsManager { get { return _missionsManager; } }
@@ -172,7 +174,7 @@ public class GameManager : MonoBehaviour, IDataPersistance
 
     public void PlayerIdleAnim()
     {
-        _playerController.CostumeSwapper.CurrentCostume.PlayIdleAnim();
+        _playerController.IdleAnim();
     }
 
     public void KillPlayer()
@@ -203,7 +205,7 @@ public class GameManager : MonoBehaviour, IDataPersistance
 
         _coinsThisMatch = 0;
 
-        _playerController.CostumeSwapper.CurrentCostume.PlayFallingAnim();
+        _playerController.FallingAnim();
 
         SwitchCameraToPlayerFalling();
     }
@@ -215,6 +217,8 @@ public class GameManager : MonoBehaviour, IDataPersistance
         GameUIController.Instance.ToggleInGameInterface(true);
 
         GameUIController.Instance.InGameUI.setCoins(_coinsThisMatch);
+
+        _playerController.ClimbingAnim();
     }
 
     public void RestartAllRestartables()

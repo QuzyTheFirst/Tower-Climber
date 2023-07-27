@@ -10,8 +10,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _checkForObstaclesDistance;
     [SerializeField] private LayerMask _obstaclesMask;
 
-    [SerializeField] private Transform _cameraLookPosition;
-
     private CostumeSwapper _costumeSwapper;
 
     private Rigidbody _rig;
@@ -19,6 +17,8 @@ public class PlayerController : MonoBehaviour
     private Vector3 _startingPos;
 
     private bool _playerGotAway = false;
+
+    private Animator _anim;
 
     public CostumeSwapper CostumeSwapper
     {
@@ -34,6 +34,8 @@ public class PlayerController : MonoBehaviour
         _startingPos = transform.position;
 
         _costumeSwapper = GetComponentInChildren<CostumeSwapper>();
+
+        _anim = GetComponent<Animator>();
     }
 
     private void FixedUpdate()
@@ -59,7 +61,19 @@ public class PlayerController : MonoBehaviour
             transform.position = _startingPos;
         }
     }
-    
+
+    public void FallingAnim() => _anim.SetTrigger("Fall");
+
+    public void IdleAnim() => _anim.SetTrigger("Idle");
+
+    public void ClimbingAnim() => _anim.SetTrigger("Climb");
+
+    public void GoInWindowAnim() => _anim.SetTrigger("GoInWindow");
+
+    public void GoOutWindowAnim() => _anim.SetTrigger("GoOutWindow");
+
+    public void ToggleIK(bool value) => _costumeSwapper.CurrentCostume.ToggleIK(value);
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;

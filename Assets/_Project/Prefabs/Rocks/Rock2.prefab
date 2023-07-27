@@ -145,11 +145,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1180526760385695179, guid: c632a7df98b52f04b81295059f73e7e6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1180526760385695179, guid: c632a7df98b52f04b81295059f73e7e6, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.016
+      value: -0.0096
       objectReference: {fileID: 0}
     - target: {fileID: 1180526760385695179, guid: c632a7df98b52f04b81295059f73e7e6, type: 3}
       propertyPath: m_LocalRotation.w
@@ -182,6 +182,14 @@ PrefabInstance:
     - target: {fileID: 1539802710984691895, guid: c632a7df98b52f04b81295059f73e7e6, type: 3}
       propertyPath: m_Name
       value: RockParticles
+      objectReference: {fileID: 0}
+    - target: {fileID: 7175981884819008369, guid: c632a7df98b52f04b81295059f73e7e6, type: 3}
+      propertyPath: ShapeModule.angle
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7175981884819008369, guid: c632a7df98b52f04b81295059f73e7e6, type: 3}
+      propertyPath: ShapeModule.radius.value
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c632a7df98b52f04b81295059f73e7e6, type: 3}

@@ -5803,11 +5803,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 402358, guid: 47b8aa835821cf647bf2c632172f142c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 9.6
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 402358, guid: 47b8aa835821cf647bf2c632172f142c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 465238, guid: 47b8aa835821cf647bf2c632172f142c, type: 3}
       propertyPath: m_RootOrder
@@ -7315,6 +7315,7 @@ Transform:
   - {fileID: 2099558011}
   - {fileID: 705507995}
   - {fileID: 2093967294}
+  - {fileID: 1884598838}
   m_Father: {fileID: 1070741237}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7689,6 +7690,7 @@ GameObject:
   - component: {fileID: 1070741237}
   - component: {fileID: 1070741238}
   - component: {fileID: 1070741239}
+  - component: {fileID: 1070741240}
   m_Layer: 0
   m_Name: The Tower
   m_TagString: Untagged
@@ -7759,6 +7761,32 @@ MonoBehaviour:
   - {fileID: 1100271300278333577, guid: 5f18583e6067b99478534bc86a1f82a6, type: 3}
   - {fileID: 8520757634203139991, guid: ba3b8ef64666be64f82465fb0e126753, type: 3}
   - {fileID: 2271211144064610994, guid: 452d8085c09c1ec44aec3af1ec02695b, type: 3}
+--- !u!114 &1070741240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1070741234}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0fd8792f686223489255ad3e0b4fbb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _cloudsParent: {fileID: 1884598838}
+  _spawningHeight: 70
+  _spawnDistanceFromTowerCenter: 30
+  _minFloatingSpeed: 1
+  _maxFloatingSpeed: 4
+  _destroyCloudsAfter: 40
+  _startingSpawningRatePerSecond: 0.2
+  _endingSpawningRatePerSecond: 0.5
+  _timeToGetToEndingPace: 120
+  _cloudsPfs:
+  - {fileID: 406422, guid: 248f8272187dcc448a9d3c979531398f, type: 3}
+  - {fileID: 443158, guid: 98c20755924aa5d499600058295661ee, type: 3}
+  - {fileID: 493682, guid: 8ec774c4def159e4dba49882bd591326, type: 3}
+  - {fileID: 426810, guid: bef19769e972d0741aec3902288fcc2e, type: 3}
 --- !u!1 &1081913059
 GameObject:
   m_ObjectHideFlags: 0
@@ -14291,6 +14319,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1871544212}
   m_CullTransparentMesh: 1
+--- !u!1 &1884598837
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1884598838}
+  m_Layer: 0
+  m_Name: Clouds
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1884598838
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1884598837}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1026654389}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1900604827
 GameObject:
   m_ObjectHideFlags: 0
@@ -15365,34 +15424,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4349634899865096902, guid: 981bf8be69340394a824b5948d03462e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4349634899897587703, guid: 981bf8be69340394a824b5948d03462e, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4349634899897587703, guid: 981bf8be69340394a824b5948d03462e, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4349634899897587703, guid: 981bf8be69340394a824b5948d03462e, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6480694258165499795, guid: 981bf8be69340394a824b5948d03462e, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6480694258165499795, guid: 981bf8be69340394a824b5948d03462e, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6480694258165499795, guid: 981bf8be69340394a824b5948d03462e, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6480694258165499795, guid: 981bf8be69340394a824b5948d03462e, type: 3}
-      propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

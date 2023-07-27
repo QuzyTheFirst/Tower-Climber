@@ -10,6 +10,28 @@ public class Window : MonoBehaviour
 
     public bool PlayerHasEntered = false;
 
+    [SerializeField] private Animator _anim;
+
+    private void Awake()
+    {
+        _anim = GetComponent<Animator>();
+    }
+
+    public void OpenWindow()
+    {
+        _anim.SetTrigger("Open");
+    }
+
+    public void CloseWindow()
+    {
+        _anim.SetTrigger("Close");
+    }
+
+    public void OpenCloseWindow()
+    {
+        _anim.SetTrigger("FastCloseOpen");
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.transform == GameManager.Instance.Player.transform)
