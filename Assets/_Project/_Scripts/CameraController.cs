@@ -69,14 +69,14 @@ public class CameraController : MonoBehaviour
         LeanTween.cancel(_camera.gameObject);
         LeanTween.cancel(_camera.LookAt.gameObject);
 
-        LeanTween.move(_camera.gameObject, _cameraStartPosition + Vector3.right * _cameraAnimDistance, _cameraAnimTime).setEaseOutCubic().setOnComplete(() =>
+        LeanTween.move(_camera.gameObject, _cameraStartPosition + Vector3.right * _cameraAnimDistance, _cameraAnimTime).setEaseOutCubic().setIgnoreTimeScale(true).setOnComplete(() =>
         {
-            LeanTween.move(_camera.gameObject, _cameraStartPosition, _cameraAnimTime).setEaseOutSine();
+            LeanTween.move(_camera.gameObject, _cameraStartPosition, _cameraAnimTime).setIgnoreTimeScale(true);
         });
 
-        LeanTween.move(_camera.LookAt.gameObject, _cameraTargetStartPosition + Vector3.right * _cameraTargetAnimDistance, _cameraTargetAnimTime).setEaseOutCubic().setOnComplete(() =>
+        LeanTween.move(_camera.LookAt.gameObject, _cameraTargetStartPosition + Vector3.right * _cameraTargetAnimDistance, _cameraTargetAnimTime).setEaseOutCubic().setIgnoreTimeScale(true).setOnComplete(() =>
         {
-            LeanTween.move(_camera.LookAt.gameObject, _cameraTargetStartPosition, _cameraTargetAnimTime).setEaseOutSine();
+            LeanTween.move(_camera.LookAt.gameObject, _cameraTargetStartPosition, _cameraTargetAnimTime).setIgnoreTimeScale(true);
         });
     }
 
@@ -85,14 +85,14 @@ public class CameraController : MonoBehaviour
         LeanTween.cancel(_camera.gameObject);
         LeanTween.cancel(_camera.LookAt.gameObject);
 
-        LeanTween.move(_camera.gameObject, _cameraStartPosition + Vector3.left * _cameraAnimDistance, _cameraAnimTime).setEaseOutCubic().setOnComplete(() =>
+        LeanTween.move(_camera.gameObject, _cameraStartPosition + Vector3.left * _cameraAnimDistance, _cameraAnimTime).setEaseOutCubic().setIgnoreTimeScale(true).setOnComplete(() =>
         {
-            LeanTween.move(_camera.gameObject, _cameraStartPosition, _cameraAnimTime).setEaseOutSine();
+            LeanTween.move(_camera.gameObject, _cameraStartPosition, _cameraAnimTime).setIgnoreTimeScale(true);
         });
 
-        LeanTween.move(_camera.LookAt.gameObject, _cameraTargetStartPosition + Vector3.left * _cameraTargetAnimDistance, _cameraTargetAnimTime).setEaseOutBack().setOnComplete(() =>
+        LeanTween.move(_camera.LookAt.gameObject, _cameraTargetStartPosition + Vector3.left * _cameraTargetAnimDistance, _cameraTargetAnimTime).setEaseOutBack().setIgnoreTimeScale(true).setOnComplete(() =>
         {
-            LeanTween.move(_camera.LookAt.gameObject, _cameraTargetStartPosition, _cameraTargetAnimTime).setEaseOutSine();
+            LeanTween.move(_camera.LookAt.gameObject, _cameraTargetStartPosition, _cameraTargetAnimTime).setIgnoreTimeScale(true);
         });
     }
 
@@ -101,14 +101,30 @@ public class CameraController : MonoBehaviour
         LeanTween.cancel(_camera.gameObject);
         LeanTween.cancel(_camera.LookAt.gameObject);
 
-        LeanTween.move(_camera.gameObject, _cameraStartPosition + Vector3.up * _cameraAnimDistance, _cameraAnimTime).setEaseOutCubic().setOnComplete(() =>
+        LeanTween.move(_camera.gameObject, _cameraStartPosition + Vector3.up * _cameraAnimDistance, _cameraAnimTime).setEaseOutCubic().setIgnoreTimeScale(true).setOnComplete(() =>
         {
-            LeanTween.move(_camera.gameObject, _cameraStartPosition, _cameraAnimTime).setEaseOutSine();
+            LeanTween.move(_camera.gameObject, _cameraStartPosition, _cameraAnimTime).setIgnoreTimeScale(true);
         });
 
-        LeanTween.move(_camera.LookAt.gameObject, _cameraTargetStartPosition + Vector3.up * _cameraTargetAnimDistance, _cameraTargetAnimTime).setEaseOutCubic().setOnComplete(() =>
+        LeanTween.move(_camera.LookAt.gameObject, _cameraTargetStartPosition + Vector3.up * _cameraTargetAnimDistance, _cameraTargetAnimTime).setEaseOutCubic().setIgnoreTimeScale(true).setOnComplete(() =>
         {
-            LeanTween.move(_camera.LookAt.gameObject, _cameraTargetStartPosition, _cameraTargetAnimTime).setEaseOutSine();
+            LeanTween.move(_camera.LookAt.gameObject, _cameraTargetStartPosition, _cameraTargetAnimTime).setIgnoreTimeScale(true);
+        });
+    }
+
+    public void DownAnim()
+    {
+        LeanTween.cancel(_camera.gameObject);
+        LeanTween.cancel(_camera.LookAt.gameObject);
+
+        LeanTween.move(_camera.gameObject, _cameraStartPosition + Vector3.down * _cameraAnimDistance, _cameraAnimTime).setEaseOutCubic().setIgnoreTimeScale(true).setOnComplete(() =>
+        {
+            LeanTween.move(_camera.gameObject, _cameraStartPosition, _cameraAnimTime).setIgnoreTimeScale(true);
+        });
+
+        LeanTween.move(_camera.LookAt.gameObject, _cameraTargetStartPosition + Vector3.down * _cameraTargetAnimDistance, _cameraTargetAnimTime).setEaseOutCubic().setIgnoreTimeScale(true).setOnComplete(() =>
+        {
+            LeanTween.move(_camera.LookAt.gameObject, _cameraTargetStartPosition, _cameraTargetAnimTime).setIgnoreTimeScale(true);
         });
     }
 }

@@ -4031,9 +4031,9 @@ MonoBehaviour:
   _playerFall: {fileID: 1030510869}
   _timeToChangeCameraPosition: 0.8
   _timeToChangeCameraLookAtTransform: 0.7
-  _cameraAnimDistance: 0.2
+  _cameraAnimDistance: 0.25
   _cameraAnimTime: 0.25
-  _cameraTargetAnimDistance: 0.2
+  _cameraTargetAnimDistance: 0.25
   _cameraTargetAnimTime: 0.25
 --- !u!1 &596732276
 GameObject:
@@ -5261,6 +5261,7 @@ MonoBehaviour:
   _shopManager: {fileID: 1993511110}
   _gpgsManager: {fileID: 918646971}
   _missionsManager: {fileID: 1065383981}
+  _rewardForPrincess: 5
 --- !u!4 &744147971
 Transform:
   m_ObjectHideFlags: 0

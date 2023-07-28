@@ -111,11 +111,15 @@ public class TowerController : PlayerInputHandler, IRestartable
     {
         Window window = sender as Window;
 
-        if (window.PlayerHasEntered)
-            return;
-        window.PlayerHasEntered = true;
-
         window.CloseWindow();
+
+        if (window.HasAPrincess)
+        {
+            window.Princess.ToggleVisuals(false);
+            window.Princess.HeartExplosion();
+
+            GameManager.Instance.ChangeMatchMoneyValue(GameManager.Instance.RewardForPrincess, GameManager.MoneyValue.Up);
+        }
 
         StopDashCoroutines();
 
@@ -188,7 +192,7 @@ public class TowerController : PlayerInputHandler, IRestartable
 
         TowerPart towerPart = part.GetComponent<TowerPart>();
 
-        towerPart.RandomizeWindowsAndCoins();
+        towerPart.RandomizeTowerPartContents();
 
         if (_spawnedParts.Count == 4)
             towerPart.DeactivateAllWindowsAndCoins();
@@ -249,7 +253,8 @@ public class TowerController : PlayerInputHandler, IRestartable
         GameManager.Instance.Player.ToggleIsInsideWindow(false);
         GameManager.Instance.Player.LeftJumpAnim();
 
-        GameManager.Instance.CameraController.LeftAnim();
+        //GameManager.Instance.CameraController.LeftAnim();
+        GameManager.Instance.CameraController.RightAnim();
 
         Quaternion endDashRotation = Quaternion.Euler(0, _towerPreferedRotation.eulerAngles.y - _towerDashDegree, 0);
 
@@ -280,7 +285,8 @@ public class TowerController : PlayerInputHandler, IRestartable
         GameManager.Instance.Player.ToggleIsInsideWindow(false);
         GameManager.Instance.Player.RightJumpAnim();
 
-        GameManager.Instance.CameraController.RightAnim();
+        //GameManager.Instance.CameraController.RightAnim();
+        GameManager.Instance.CameraController.LeftAnim();
 
         Quaternion endDashRotation = Quaternion.Euler(0, _towerPreferedRotation.eulerAngles.y + _towerDashDegree, 0);
 
@@ -312,7 +318,8 @@ public class TowerController : PlayerInputHandler, IRestartable
 
         GameManager.Instance.Player.UpJumpAnim();
 
-        GameManager.Instance.CameraController.UpAnim();
+        //GameManager.Instance.CameraController.UpAnim();
+        GameManager.Instance.CameraController.DownAnim();
 
         Vector3 endDashPosition = _towerPartsParent.position - Vector3.up * _towerUpDashDistance;
 

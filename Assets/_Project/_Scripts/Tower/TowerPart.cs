@@ -12,7 +12,7 @@ public class TowerPart : MonoBehaviour
     [SerializeField] private int _chanceToSpawnWindowOneTo = 4;
 
     [SerializeField] private GameObject[] _coinsCollumns;
-    [SerializeField] private GameObject[] _windows;
+    [SerializeField] private Window[] _windows;
     
     public BoxCollider BoxCollider { get { return _boxCollider; } }
 
@@ -21,7 +21,7 @@ public class TowerPart : MonoBehaviour
         _boxCollider = GetComponent<BoxCollider>();
     }
 
-    public void RandomizeWindowsAndCoins()
+    public void RandomizeTowerPartContents()
     {
         foreach (GameObject coins in _coinsCollumns)
         {
@@ -30,11 +30,14 @@ public class TowerPart : MonoBehaviour
             coins.SetActive(spawnCoins);
         }
 
-        foreach (GameObject window in _windows)
+        foreach (Window window in _windows)
         {
             float chanceToSpawn = 1f / _chanceToSpawnWindowOneTo;
             bool spawnWindow = Random.value <= chanceToSpawn ? true : false;
-            window.SetActive(spawnWindow);
+            window.gameObject.SetActive(spawnWindow);
+
+            if(spawnWindow)
+                window.RandomlySpawnPrincess();
         }
     }
 
@@ -45,9 +48,9 @@ public class TowerPart : MonoBehaviour
             coins.SetActive(false);
         }
 
-        foreach (GameObject window in _windows)
+        foreach (Window window in _windows)
         {
-            window.SetActive(false);
+            window.gameObject.SetActive(false);
         }
     }
 

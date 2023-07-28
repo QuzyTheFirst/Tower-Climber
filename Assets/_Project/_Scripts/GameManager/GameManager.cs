@@ -55,6 +55,8 @@ public class GameManager : MonoBehaviour, IDataPersistance
 
     private int _coinsThisMatch = 0;
 
+    [SerializeField] private int _rewardForPrincess = 5;
+
     private List<IRestartable> _iRestartableObjs;
 
     private bool _hasShownStartingCutscene = false;
@@ -73,6 +75,8 @@ public class GameManager : MonoBehaviour, IDataPersistance
     public GameState CurrentGameState { get { return _currentGameState; } }
 
     public CameraController CameraController { get { return _cameraController; } }
+
+    public int RewardForPrincess { get { return _rewardForPrincess; } }
 
     private void OnEnable()
     {
@@ -95,8 +99,7 @@ public class GameManager : MonoBehaviour, IDataPersistance
     {
         Coin coin = sender as Coin;
 
-        _coinsThisMatch++;
-        GameUIController.Instance.InGameUI.setCoins(_coinsThisMatch);
+        ChangeMatchMoneyValue(1, MoneyValue.Up);
 
         Destroy(coin.gameObject);
     }
@@ -135,6 +138,21 @@ public class GameManager : MonoBehaviour, IDataPersistance
         GameUIController.Instance.MainMenuUI.setCoins(_coins);
         GameUIController.Instance.CostumesShopUI.UpdateUI(_coins);
         DataPersistanceManager.Instance.SaveGame();
+    }
+
+    public void ChangeMatchMoneyValue(int value, MoneyValue moneyValue)
+    {
+        switch (moneyValue)
+        {
+            case MoneyValue.Up:
+                _coinsThisMatch += value;
+                break;
+            case MoneyValue.Down:
+                _coinsThisMatch -= value;
+                break;
+        }
+
+        GameUIController.Instance.InGameUI.setCoins(_coinsThisMatch);
     }
 
     public void ToggleInGamePause(bool value)
