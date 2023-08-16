@@ -59,7 +59,7 @@ public class Abyss : MonoBehaviour, IRestartable
     {
         if(other.transform == GameManager.Instance.Player.transform)
         {
-            GameManager.Instance.KillPlayer();
+            GameManager.Instance.EndRun();
         }
     }
 
@@ -67,7 +67,7 @@ public class Abyss : MonoBehaviour, IRestartable
     {
         if (other.transform == GameManager.Instance.Player.transform)
         {
-            GameManager.Instance.KillPlayer();
+            GameManager.Instance.EndRun();
         }
     }
 }

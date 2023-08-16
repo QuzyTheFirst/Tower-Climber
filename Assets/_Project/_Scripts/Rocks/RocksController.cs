@@ -138,7 +138,7 @@ public class RocksController : MonoBehaviour, IRestartable
 
     private void Rock_OnRockHitPlayer(object sender, System.EventArgs e)
     {
-        GameManager.Instance.KillPlayer();
+        GameManager.Instance.EndRun();
     }
 
     private void OnDrawGizmos()

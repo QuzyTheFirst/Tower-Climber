@@ -46,8 +46,4 @@ public class MainMenuUI : MonoBehaviour
     {
         GameManager.Instance.GPGSManager.Leaderboard.ShowLeaderboard();
     }
-    public void ShowAchievements()
-    {
-        GameManager.Instance.GPGSManager.Achievement.ShowAllAchievments();
-    }
 }
